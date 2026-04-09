@@ -115,6 +115,58 @@
             padding: 40px;
             overflow-y: auto;
         }
+        /* ===== Table Styling (Fix cramped layout) ===== */
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+        
+        .markdown-body th,
+        .markdown-body td {
+            border: 1px solid var(--border);
+            padding: 12px 14px;   /* ⭐ 關鍵：讓內容有空間 */
+            text-align: left;
+            vertical-align: top;
+            line-height: 1.6;
+        }
+        
+        .markdown-body th {
+            background-color: var(--box-ml-bg);
+            font-weight: 600;
+        }
+        
+        .markdown-body tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        
+        /* ⭐ 讓長句子自動換行（非常重要） */
+        .markdown-body td {
+            word-break: break-word;
+        }
+        
+        /* ⭐ 避免第一欄太窄 */
+        .markdown-body td:first-child,
+        .markdown-body th:first-child {
+            width: 140px;
+            white-space: nowrap;
+        }
+        .markdown-body {
+    max-width: 900px;   /* 原本 800 可以稍微放寬 */
+}
+        .markdown-body th:nth-child(2),
+.markdown-body td:nth-child(2),
+.markdown-body th:nth-child(3),
+.markdown-body td:nth-child(3) {
+    width: 40%;
+}
+        @media (max-width: 768px) {
+    .markdown-body table {
+        display: block;
+        overflow-x: auto;
+    }
+}
     </style>
 </head>
 
