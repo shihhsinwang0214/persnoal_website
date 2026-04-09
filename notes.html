@@ -161,10 +161,64 @@
 .markdown-body td:nth-child(3) {
     width: 40%;
 }
+
+
         @media (max-width: 768px) {
     .markdown-body table {
         display: block;
         overflow-x: auto;
+    }
+
+    .category-nav {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    /* 🔥 1. grid → single column */
+    .main-container {
+        display: block;
+    }
+
+    /* 🔥 2. sidebar 變 top bar */
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 10px;
+    }
+
+    /* 🔥 3. note list → 橫向 scroll */
+    .note-list {
+        display: flex;
+        overflow-x: auto;
+        gap: 8px;
+    }
+
+    .note-list li {
+        flex: 0 0 auto;
+    }
+
+    .note-list button {
+        white-space: nowrap;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 6px 12px;
+    }
+
+    /* 🔥 4. content 滿版 */
+    .content {
+        padding: 20px;
+    }
+
+    /* 🔥 5. markdown 不要限制寬度 */
+    .markdown-body {
+        max-width: 100%;
     }
 }
     </style>
