@@ -311,21 +311,36 @@ function loadCategory(categoryId, event) {
         const btn = document.createElement('button');
 
         btn.innerText = note.title[currentLang];
-        btn.onclick = (e) => loadMarkdown(note.file[currentLang], e.target);
+        btn.setAttribute("data-file", note.file[currentLang]); // ⭐ store file path for easy lookup
+        btn.onclick = (e) => loadMarkdown(note.file[currentLang], e.target, categoryId, note.file[currentLang]);
 
         li.appendChild(btn);
         listContainer.appendChild(li);
     });
 
-    const first = listContainer.querySelector('button');
-    if (first) {
-        loadMarkdown(notesData[categoryId][0].file[currentLang], first);
+    // Restore previously selected note for this category, if any
+    let savedNote = localStorage.getItem("currentNote-" + categoryId);
+    let btnToClick;
+    if (savedNote) {
+        btnToClick = Array.from(listContainer.querySelectorAll('button'))
+                          .find(b => b.getAttribute("data-file") === savedNote);
+    }
+    if (!btnToClick) {
+        btnToClick = listContainer.querySelector('button'); // default to first note
+    }
+
+    if (btnToClick) {
+        loadMarkdown(btnToClick.getAttribute("data-file"), btnToClick, categoryId, btnToClick.getAttribute("data-file"));
     }
 }
 
-async function loadMarkdown(filePath, btnElement) {
+async function loadMarkdown(filePath, btnElement, categoryId, noteFile) {
     document.querySelectorAll('.note-list button').forEach(b => b.classList.remove('active-note'));
     if (btnElement) btnElement.classList.add('active-note');
+
+    // ⭐ Save current state to localStorage
+    localStorage.setItem("currentCategory", categoryId);
+    localStorage.setItem("currentNote-" + categoryId, noteFile);
 
     const contentDiv = document.getElementById('markdown-content');
     contentDiv.innerHTML = "Loading...";
@@ -340,7 +355,8 @@ async function loadMarkdown(filePath, btnElement) {
 }
 
 window.onload = () => {
-    loadCategory('writing');
+    let lastCategory = localStorage.getItem("currentCategory") || "writing";
+    loadCategory(lastCategory);
 };
 
 </script>
