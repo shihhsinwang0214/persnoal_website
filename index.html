@@ -93,12 +93,15 @@
         
         .profile-img {
             width: 100%;
-            max-width: 200px; /* Made smaller (was 280px) */
+            max-width: 220px; 
             border-radius: 20px;
-            margin: 0 auto 25px auto; /* Keeps the smaller image perfectly centered */
-            display: block; /* Helps with centering */
+            margin: 0 auto 25px auto;
+            display: block;
             border: 4px solid #fff;
-            box-shadow: 0 10px 30px rgba(26,43,60, 0.08);
+            box-shadow: 0 10px 30px rgba(28, 40, 51, 0.08);
+            
+            /* Add this line to mute the photo colors slightly so it blends perfectly */
+            filter: grayscale(20%) contrast(105%); 
         }
 
         .subtitle {
@@ -179,6 +182,13 @@
         .philosophy-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 8px; color: var(--text); font-family: var(--font-mono); }
         .philosophy-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
 
+        /* Name Break Logic */
+        .mobile-break { display: none; }
+        @media (max-width: 600px) {
+            .mobile-break { display: block; }
+            h1 { font-size: 2.2rem; line-height: 1.2; } /* Slightly smaller for mobile */
+        }
+
         /* Research List */
         .research-list { list-style: none; padding: 0; margin: 0 0 40px 0; }
         .research-list li { margin-bottom: 15px; font-size: 1rem; display: flex; align-items: flex-start; gap: 12px; }
@@ -218,7 +228,7 @@
 <body>
 
     <header>
-        <h1>Shih-Hsin Wang (王士欣)</h1>
+        <h1>Shih-Hsin Wang<br class="mobile-break"> (王士欣)</h1>
         <nav>
             <a onclick="switchTab('home')" class="nav-link active-tab" id="nav-home">Home</a>
             <a onclick="switchTab('publications')" class="nav-link" id="nav-publications">Publications</a>
