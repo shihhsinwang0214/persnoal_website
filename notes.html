@@ -291,7 +291,26 @@ const categoryTitles = {
 function setLanguage(lang) {
     currentLang = lang;
     localStorage.setItem("lang", lang);
-    document.querySelector('.cat-btn.active-cat').click();
+
+    // ⭐ Save the currently active category and note
+    const activeCategoryBtn = document.querySelector('.cat-btn.active-cat');
+    const activeCategory = activeCategoryBtn ? activeCategoryBtn.textContent.toLowerCase() : "writing";
+
+    const activeNoteBtn = document.querySelector('.note-list button.active-note');
+    const activeNoteFile = activeNoteBtn ? activeNoteBtn.getAttribute("data-file") : null;
+
+    // Reload the same category but in the new language
+    loadCategory(activeCategory, { target: activeCategoryBtn });
+
+    // After loadCategory, restore the same note in the new language
+    if (activeNoteFile) {
+        const listContainer = document.getElementById('note-list-container');
+        const btnToClick = Array.from(listContainer.querySelectorAll('button'))
+                                .find(b => b.innerText === activeNoteBtn.innerText);
+        if (btnToClick) {
+            loadMarkdown(btnToClick.getAttribute("data-file"), btnToClick, activeCategory, btnToClick.getAttribute("data-file"));
+        }
+    }
 }
 
 function loadCategory(categoryId, event) {
