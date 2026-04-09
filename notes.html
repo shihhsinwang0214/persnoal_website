@@ -173,7 +173,7 @@
         <a href="index.html" class="back-btn">← Back to Profile</a>
         
         <div class="category-nav">
-            <button class="cat-btn active-cat" onclick="loadCategory('research')">Research Details</button>
+            <button class="cat-btn active-cat" onclick="loadCategory('research')">Research Topics</button>
             <button class="cat-btn" onclick="loadCategory('writing')">Writing Skills</button>
             <button class="cat-btn" onclick="loadCategory('skills')">Research Skills</button>
         </div>
@@ -183,7 +183,7 @@
     <div class="main-container">
         
         <aside class="sidebar">
-            <h3 id="sidebar-title">Research Details</h3>
+            <h3 id="sidebar-title">Research Topics</h3>
             <ul class="note-list" id="note-list-container">
                 </ul>
         </aside>
@@ -202,22 +202,21 @@
         // ==========================================
         const notesData = {
             "research": [
-                { title: "Flow Matching Intuition", file: "notes/flow-matching.md" },
-                { title: "Graph Neural Networks", file: "notes/gnn-basics.md" },
-                { title: "Algebraic Geometry Primer", file: "notes/geometry.md" }
+                { title: "Flow Matching & Diffusion Models", file: "notes/flow-matching.md" },
+                { title: "Geometric Deep Learning", file: "notes/gnn-basics.md" }
             ],
             "writing": [
                 { title: "Writing a Strong Abstract", file: "notes/abstracts.md" },
                 { title: "Rebuttal Strategies", file: "notes/rebuttals.md" }
             ],
             "skills": [
-                { title: "Managing GPU Clusters", file: "notes/gpu-cluster.md" },
+                { title: "What might be a Good Question", file: "notes/question.md" },
                 { title: "Literature Review Tips", file: "notes/lit-review.md" }
             ]
         };
 
         const categoryTitles = {
-            "research": "Research Details",
+            "research": "Research Topics",
             "writing": "Writing Skills",
             "skills": "Research Skills"
         };
