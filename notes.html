@@ -314,10 +314,15 @@ function setLanguage(lang) {
 }
 
 function loadCategory(categoryId, event) {
-    if (event) {
-        document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active-cat'));
-        event.target.classList.add('active-cat');
-    }
+    // ⭐ Always update active tab (NOT dependent on event)
+    document.querySelectorAll('.cat-btn').forEach(btn => {
+        btn.classList.remove('active-cat');
+
+        // match based on onclick content
+        if (btn.getAttribute("onclick").includes(categoryId)) {
+            btn.classList.add('active-cat');
+        }
+    });
 
     document.getElementById('sidebar-title').innerText =
         categoryTitles[categoryId][currentLang];
