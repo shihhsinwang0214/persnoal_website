@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shih-Hsin Wang — Notes & Guides</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <style>
+        /* Exact matching color palette from your index.html */
+        :root {
+            --bg: #fffdfc;
+            --text: #1a2b3c;
+            --text-muted: #5a6b7d;
+            --accent: #c65d4a;
+            --box-math-bg: #eef2f6;
+            --box-ml-bg: #fcf6f1;
+            --border: #e6e9ed;
+            --font-main: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font-main);
+            line-height: 1.65;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh; /* Full screen height */
+        }
+
+        /* TOP BAR */
+        header {
+            background-color: var(--bg);
+            border-bottom: 1px solid var(--border);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .back-btn {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
+        }
+        .back-btn:hover { color: var(--accent); }
+
+        .category-nav {
+            display: flex;
+            gap: 20px;
+        }
+        .cat-btn {
+            background: none;
+            border: none;
+            font-family: var(--font-main);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 5px 10px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .cat-btn:hover { color: var(--accent); }
+        .cat-btn.active-cat {
+            color: var(--accent);
+            border-bottom: 2px solid var(--accent);
+        }
+
+        /* MAIN LAYOUT */
+        .main-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            flex-grow: 1;
+            overflow: hidden; /* Prevent body scrolling, scroll inner divs */
+        }
+
+        /* LEFT SIDEBAR */
+        .sidebar {
+            background-color: var(--box-ml-bg); /* Using your warm box background */
+            border-right: 1px solid var(--border);
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .sidebar h3 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-family: var(--font-mono);
+        }
+
+        .note-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .note-list li { margin-bottom: 8px; }
+        .note-list button {
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-family: var(--font-main);
+            font-size: 0.95rem;
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .note-list button:hover { background-color: var(--border); }
+        .note-list button.active-note {
+            background-color: var(--accent);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* RIGHT CONTENT (MARKDOWN RENDERER) */
+        .content {
+            padding: 40px 60px;
+            overflow-y: auto;
+            background-color: var(--bg);
+        }
+
+        .markdown-body {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Markdown Styling Rules mapped to your typography */
+        .markdown-body h1 { margin-top: 0; font-size: 2.2rem; border-bottom: 1px solid var(--border); padding-bottom: 10px; color: var(--text); }
+        .markdown-body h2 { margin-top: 30px; font-size: 1.5rem; color: var(--text); }
+        .markdown-body h3 { margin-top: 25px; font-size: 1.2rem; color: var(--text); }
+        .markdown-body p { margin-bottom: 16px; }
+        .markdown-body a { color: var(--accent); text-decoration: none; }
+        .markdown-body a:hover { text-decoration: underline; }
+        .markdown-body code { background-color: var(--box-math-bg); padding: 3px 6px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.85em; color: var(--text); }
+        .markdown-body pre { background-color: #1a2b3c; color: #fff; padding: 15px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 0.9em; }
+        .markdown-body pre code { background-color: transparent; padding: 0; color: inherit; }
+        .markdown-body blockquote { border-left: 4px solid var(--accent); margin: 0; padding-left: 15px; color: var(--text-muted); font-style: italic; background-color: var(--box-ml-bg); padding: 10px 15px; border-radius: 0 8px 8px 0; }
+        .markdown-body img { max-width: 100%; border-radius: 8px; }
+
+        @media (max-width: 768px) {
+            .main-container { grid-template-columns: 1fr; }
+            .sidebar { border-right: none; border-bottom: 1px solid var(--border); max-height: 200px; }
+            header { flex-direction: column; gap: 15px; }
+            .content { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="back-btn">← Back to Profile</a>
+        
+        <div class="category-nav">
+            <button class="cat-btn active-cat" onclick="loadCategory('research')">Research Details</button>
+            <button class="cat-btn" onclick="loadCategory('writing')">Writing Skills</button>
+            <button class="cat-btn" onclick="loadCategory('skills')">Research Skills</button>
+        </div>
+        
+        <div style="width: 130px;"></div> </header>
+
+    <div class="main-container">
+        
+        <aside class="sidebar">
+            <h3 id="sidebar-title">Research Details</h3>
+            <ul class="note-list" id="note-list-container">
+                </ul>
+        </aside>
+
+        <main class="content">
+            <div class="markdown-body" id="markdown-content">
+                <h1>Select a note</h1>
+                <p>Choose a topic from the sidebar to start reading.</p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. DEFINE YOUR MARKDOWN FILES HERE
+        // ==========================================
+        const notesData = {
+            "research": [
+                { title: "Flow Matching Intuition", file: "notes/flow-matching.md" },
+                { title: "Graph Neural Networks", file: "notes/gnn-basics.md" },
+                { title: "Algebraic Geometry Primer", file: "notes/geometry.md" }
+            ],
+            "writing": [
+                { title: "Writing a Strong Abstract", file: "notes/abstracts.md" },
+                { title: "Rebuttal Strategies", file: "notes/rebuttals.md" }
+            ],
+            "skills": [
+                { title: "Managing GPU Clusters", file: "notes/gpu-cluster.md" },
+                { title: "Literature Review Tips", file: "notes/lit-review.md" }
+            ]
+        };
+
+        const categoryTitles = {
+            "research": "Research Details",
+            "writing": "Writing Skills",
+            "skills": "Research Skills"
+        };
+
+        // ==========================================
+        // 2. LOGIC TO LOAD CATEGORIES
+        // ==========================================
+        function loadCategory(categoryId) {
+            // Update active styling on top buttons
+            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active-cat'));
+            event.target.classList.add('active-cat');
+
+            // Update sidebar title
+            document.getElementById('sidebar-title').innerText = categoryTitles[categoryId];
+
+            // Populate sidebar list
+            const listContainer = document.getElementById('note-list-container');
+            listContainer.innerHTML = ''; 
+
+            notesData[categoryId].forEach(note => {
+                const li = document.createElement('li');
+                const btn = document.createElement('button');
+                btn.innerText = note.title;
+                btn.onclick = (e) => loadMarkdown(note.file, e.target);
+                li.appendChild(btn);
+                listContainer.appendChild(li);
+            });
+
+            // Automatically load the first note in the category
+            if (notesData[categoryId].length > 0) {
+                const firstButton = listContainer.querySelector('button');
+                loadMarkdown(notesData[categoryId][0].file, firstButton);
+            } else {
+                document.getElementById('markdown-content').innerHTML = "<p>No notes in this category yet.</p>";
+            }
+        }
+
+        // ==========================================
+        // 3. LOGIC TO FETCH AND RENDER MARKDOWN
+        // ==========================================
+        async function loadMarkdown(filePath, btnElement) {
+            // Update active styling on sidebar buttons
+            document.querySelectorAll('.note-list button').forEach(b => b.classList.remove('active-note'));
+            if(btnElement) btnElement.classList.add('active-note');
+
+            const contentDiv = document.getElementById('markdown-content');
+            contentDiv.innerHTML = "<p>Loading...</p>";
+
+            try {
+                const response = await fetch(filePath);
+                if (!response.ok) throw new Error("File not found");
+                
+                const markdownText = await response.text();
+                contentDiv.innerHTML = marked.parse(markdownText);
+            } catch (error) {
+                contentDiv.innerHTML = `
+                    <h1>File not found</h1>
+                    <p>Could not load <code>${filePath}</code>.</p>
+                    <hr>
+                    <p><em><strong>Setup Note:</strong> Ensure you have created a <code>notes</code> folder in your directory and added your <code>.md</code> files inside it. Also, browsers block loading local files for security—you must host this on GitHub Pages or use a local server to view your files.</em></p>
+                `;
+            }
+        }
+
+        // Initialize page by loading the first category
+        window.onload = () => {
+            document.querySelector('.cat-btn').click();
+        };
+    </script>
+</body>
+</html>
