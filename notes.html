@@ -8,6 +8,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- KaTeX (Math) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    
+    <!-- Prism (Code Highlight) -->
+    <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+    
+    <!-- Marked -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
@@ -220,6 +232,100 @@
         max-width: 100%;
     }
 }
+
+
+
+/* ===== Notion-style markdown ===== */
+
+.markdown-body {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 16px;
+    line-height: 1.75;
+}
+
+/* Headings */
+.markdown-body h1 {
+    font-size: 2rem;
+    margin-top: 0;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+}
+
+.markdown-body h2 {
+    margin-top: 32px;
+    font-size: 1.5rem;
+}
+
+.markdown-body h3 {
+    margin-top: 24px;
+}
+
+/* Paragraph */
+.markdown-body p {
+    margin: 14px 0;
+}
+
+/* Lists */
+.markdown-body ul {
+    padding-left: 20px;
+}
+
+/* Blockquote (Notion style) */
+.markdown-body blockquote {
+    border-left: 3px solid var(--accent);
+    padding-left: 12px;
+    color: var(--text-muted);
+    background: var(--box-ml-bg);
+    border-radius: 6px;
+}
+
+/* Code inline */
+.markdown-body code {
+    background: var(--box-math-bg);
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+/* Code block */
+.markdown-body pre {
+    background: #1a2b3c;
+    color: white;
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+}
+
+/* Tables */
+.markdown-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.markdown-body th,
+.markdown-body td {
+    border: 1px solid var(--border);
+    padding: 12px;
+    vertical-align: top;
+}
+
+.markdown-body th {
+    background: var(--box-ml-bg);
+}
+
+/* Math spacing */
+.katex-display {
+    margin: 20px 0;
+    overflow-x: auto;
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+        
     </style>
 </head>
 
@@ -362,7 +468,6 @@ async function loadMarkdown(filePath, btnElement, categoryId, noteFile) {
     document.querySelectorAll('.note-list button').forEach(b => b.classList.remove('active-note'));
     if (btnElement) btnElement.classList.add('active-note');
 
-    // ⭐ Save current state to localStorage
     localStorage.setItem("currentCategory", categoryId);
     localStorage.setItem("currentNote-" + categoryId, noteFile);
 
@@ -372,7 +477,23 @@ async function loadMarkdown(filePath, btnElement, categoryId, noteFile) {
     try {
         const res = await fetch(filePath);
         const text = await res.text();
+
+        // ⭐ Markdown → HTML
         contentDiv.innerHTML = marked.parse(text);
+
+        // ⭐ Math render (KaTeX)
+        renderMathInElement(contentDiv, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false},
+                {left: "\\(", right: "\\)", display: false},
+                {left: "\\[", right: "\\]", display: true}
+            ]
+        });
+
+        // ⭐ Code highlight
+        Prism.highlightAllUnder(contentDiv);
+
     } catch {
         contentDiv.innerHTML = "File not found.";
     }
