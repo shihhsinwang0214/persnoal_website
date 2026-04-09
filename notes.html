@@ -155,13 +155,12 @@
         .markdown-body {
     max-width: 900px;   /* 原本 800 可以稍微放寬 */
 }
-        .markdown-body th:nth-child(2),
-.markdown-body td:nth-child(2),
-.markdown-body th:nth-child(3),
-.markdown-body td:nth-child(3) {
-    width: 40%;
-}
 
+        .markdown-body table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;   /* ⭐ 讓瀏覽器自動分配 */
+}
 
         @media (max-width: 768px) {
     .markdown-body table {
