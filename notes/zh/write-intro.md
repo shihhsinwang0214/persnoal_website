@@ -1,4 +1,4 @@
-# Writing a Compelling Research Introduction
+# 如何寫出一個有說服力的Introduction
 
 一個好的 introduction 不只是 summary，而是一個 **argument**。你的目標是讓讀者相信：這個問題是重要的、現有方法是不足的，而你的方法是自然且必要的下一步。
 
