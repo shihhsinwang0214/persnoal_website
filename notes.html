@@ -53,44 +53,20 @@
             align-items: center;
         }
 
-        .back-btn {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .category-nav {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
+        .back-btn { color: var(--text-muted); text-decoration: none; font-weight: 600; }
+        .category-nav { display: flex; gap: 20px; align-items: center; }
+        
         .cat-btn {
-            background: none;
-            border: none;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
+            background: none; border: none; font-size: 1rem; font-weight: 600;
+            color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent;
         }
-
-        .cat-btn.active-cat {
-            color: var(--accent);
-            border-bottom: 2px solid var(--accent);
-        }
+        .cat-btn.active-cat { color: var(--accent); border-bottom: 2px solid var(--accent); }
 
         .lang-switch button {
-            border: 1px solid var(--border);
-            background: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            font-weight: 600;
+            border: 1px solid var(--border); background: none; padding: 5px 10px;
+            cursor: pointer; font-weight: 600;
         }
-
-        .lang-switch button:hover {
-            color: var(--accent);
-        }
+        .lang-switch button:hover { color: var(--accent); }
 
         /* DYNAMIC LAYOUT SUPPORT */
         .main-container {
@@ -99,140 +75,110 @@
             flex-grow: 1;
             overflow: hidden;
         }
-        
-        .main-container.home-active {
-            grid-template-columns: 1fr;
-        }
+        .main-container.home-active { grid-template-columns: 1fr; }
 
-        .sidebar {
-            background-color: var(--box-ml-bg);
-            border-right: 1px solid var(--border);
-            padding: 20px;
-            overflow-y: auto;
-        }
-        
-        .main-container.home-active .sidebar {
-            display: none;
-        }
+        .sidebar { background-color: var(--box-ml-bg); border-right: 1px solid var(--border); padding: 20px; overflow-y: auto; }
+        .main-container.home-active .sidebar { display: none; }
 
-        .note-list button {
-            width: 100%;
-            text-align: left;
-            border: none;
-            background: none;
-            padding: 8px;
-            cursor: pointer;
-        }
+        .note-list button { width: 100%; text-align: left; border: none; background: none; padding: 8px; cursor: pointer; }
+        .note-list button.active-note { background-color: var(--accent); color: white; }
 
-        .note-list button.active-note {
-            background-color: var(--accent);
-            color: white;
-        }
-
-        .content {
-            padding: 40px;
-            overflow-y: auto;
-        }
+        .content { padding: 40px; overflow-y: auto; }
 
         /* ===== HOME DASHBOARD STYLES ===== */
         .home-dashboard {
             display: none;
             max-width: 1100px;
             margin: 0 auto;
+            flex-direction: column; /* Flex allows pushing footer to bottom */
+            min-height: 100%;
+        }
+        .main-container.home-active .home-dashboard { display: flex; }
+        .main-container.home-active #markdown-content { display: none; }
+
+        .dashboard-content-wrapper {
+            display: grid;
             grid-template-columns: 2fr 1fr;
             gap: 40px;
-        }
-        
-        .main-container.home-active .home-dashboard {
-            display: grid;
-        }
-        
-        .main-container.home-active #markdown-content {
-            display: none;
+            flex-grow: 1; /* Pushes footer down */
+            padding-bottom: 40px;
         }
 
-        .dashboard-header {
-            margin-bottom: 30px;
-        }
-        .dashboard-header h1 {
-            font-size: 2.2rem;
-            margin: 0 0 10px 0;
-            color: var(--text);
-        }
-        .dashboard-header p {
-            font-size: 1.05rem;
-            color: var(--text-muted);
-            margin: 0;
-        }
+        .dashboard-header { margin-bottom: 30px; }
+        .dashboard-header h1 { font-size: 2.2rem; margin: 0 0 10px 0; color: var(--text); }
+        .dashboard-header p { font-size: 1.05rem; color: var(--text-muted); margin: 0; }
 
-        .card-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .dash-card {
+        /* ===== INTERACTIVE TREE STYLES ===== */
+        .tree-container {
             background: #fff;
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 25px;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            padding: 25px 30px;
         }
-        .dash-card:hover {
-            border-color: var(--accent);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            transform: translateY(-2px);
-        }
-        .dash-card h3 {
-            margin: 0 0 10px 0;
-            color: var(--accent);
+        .tree-root {
             font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .dash-card p {
-            margin: 0;
-            font-size: 0.95rem;
-            color: var(--text-muted);
+        .tree-root::before { content: '📁'; font-size: 1.4rem; }
+        
+        .tree-branch {
+            border-left: 2px solid var(--border);
+            margin-left: 10px;
+            padding-left: 20px;
+            margin-bottom: 20px;
+            position: relative;
         }
+        .tree-branch::before {
+            content: ''; position: absolute; left: 0; top: 15px; width: 15px; height: 2px; background: var(--border);
+        }
+        .tree-category {
+            font-weight: 600; font-size: 1.05rem; cursor: pointer; display: inline-block;
+            padding: 4px 8px; border-radius: 6px; transition: all 0.2s; color: var(--accent);
+        }
+        .tree-category:hover { background: var(--box-ml-bg); transform: translateX(3px); }
+        
+        .tree-leaves {
+            margin-top: 10px; border-left: 2px solid var(--border); margin-left: 10px; padding-left: 20px;
+        }
+        .tree-leaf-item { position: relative; margin-bottom: 10px; }
+        .tree-leaf-item::before {
+            content: ''; position: absolute; left: -20px; top: 12px; width: 15px; height: 2px; background: var(--border);
+        }
+        .tree-leaf {
+            color: var(--text-muted); cursor: pointer; display: inline-block;
+            padding: 2px 8px; border-radius: 4px; transition: all 0.2s; font-size: 0.95rem;
+        }
+        .tree-leaf:hover { background: var(--box-math-bg); color: var(--text); transform: translateX(3px); font-weight: 500; }
+        .tree-leaf::before { content: '📄 '; font-size: 0.85rem; opacity: 0.6; }
 
-        .updates-column {
-            background: var(--box-math-bg);
-            border-radius: 12px;
-            padding: 25px;
-            border: 1px solid var(--border);
-        }
-        .updates-column h3 {
-            margin: 0 0 20px 0;
-            font-size: 1.1rem;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 10px;
-        }
+        /* ===== UPDATES COLUMN ===== */
+        .updates-column { background: var(--box-math-bg); border-radius: 12px; padding: 25px; border: 1px solid var(--border); }
+        .updates-column h3 { margin: 0 0 20px 0; font-size: 1.1rem; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
         .update-item { margin-bottom: 15px; }
-        .update-date {
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            color: var(--accent);
-            display: block;
-            margin-bottom: 3px;
-        }
-        .update-text {
-            font-size: 0.95rem;
-            line-height: 1.4;
-        }
+        .update-date { font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent); display: block; margin-bottom: 3px; }
+        .update-text { font-size: 0.95rem; line-height: 1.4; }
 
-        /* ===== IN-DASHBOARD FOOTER ===== */
+        /* ===== MINIMAL FOOTER ===== */
         .home-footer {
-            grid-column: 1 / -1; /* Spans across both columns */
             text-align: center;
-            padding-top: 30px;
-            margin-top: 20px;
+            padding: 15px 10px 10px 10px; /* Kept very tight */
+            margin-top: auto; /* Forces it to the absolute bottom */
             border-top: 1px solid var(--border);
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
             font-family: var(--font-mono);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
         }
 
-        /* ===== Table Styling ===== */
+        /* ===== Table & Markdown Styling ===== */
         .markdown-body table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95rem; table-layout: auto; }
         .markdown-body th, .markdown-body td { border: 1px solid var(--border); padding: 12px 14px; text-align: left; vertical-align: top; line-height: 1.6; word-break: break-word; }
         .markdown-body th { background-color: var(--box-ml-bg); font-weight: 600; }
@@ -241,8 +187,7 @@
         .markdown-body { max-width: 900px; margin: 0; font-size: 16px; line-height: 1.75; }
 
         @media (max-width: 768px) {
-            .home-dashboard { grid-template-columns: 1fr; }
-            .card-grid { grid-template-columns: 1fr; }
+            .dashboard-content-wrapper { grid-template-columns: 1fr; }
             .markdown-body table { display: block; overflow-x: auto; }
             .category-nav { flex-wrap: wrap; gap: 10px; }
             header { flex-direction: column; align-items: flex-start; gap: 10px; }
@@ -255,7 +200,6 @@
             .markdown-body { max-width: 100%; }
         }
 
-        /* ===== Notion-style markdown ===== */
         .markdown-body h1 { font-size: 2rem; margin-top: 0; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
         .markdown-body h2 { margin-top: 32px; font-size: 1.5rem; }
         .markdown-body h3 { margin-top: 24px; }
@@ -296,51 +240,46 @@
     <main class="content">
         
         <div class="home-dashboard" id="home-dashboard">
-            <div class="dashboard-main">
-                <div class="dashboard-header">
-                    <h1 id="home-title">Notes & Guides</h1>
-                    <p id="home-subtitle">A collection of research skill guides and technical notes on my research areas, intended as an open resource for anyone.</p>
-                </div>
-
-                <div class="card-grid">
-                    <div class="dash-card" onclick="loadCategory('themes', event)">
-                        <h3 id="card-themes-title">Research Areas</h3>
-                        <p id="card-themes-desc">Notes and relevant references on generative models, geometric deep learning, and AI for science.</p>
+            <div class="dashboard-content-wrapper">
+                
+                <div class="dashboard-main">
+                    <div class="dashboard-header">
+                        <h1 id="home-title">Notes & Guides</h1>
+                        <p id="home-subtitle">A collection of research skill guides and technical notes on my research areas, intended as an open resource for anyone.</p>
                     </div>
-                    <div class="dash-card" onclick="loadCategory('skills', event)">
-                        <h3 id="card-skills-title">Academic Skills</h3>
-                        <p id="card-skills-desc">Guides on writing impactful papers, reading literature efficiently, and presenting research.</p>
+
+                    <div class="tree-container">
+                        <div class="tree-root" id="tree-root-title">Knowledge Base</div>
+                        <div id="dynamic-tree">
+                            </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="updates-column">
-                <h3 id="updates-title">Recent Updates</h3>
-                
-                <div class="update-item">
-                    <span class="update-date">Apr 2026</span>
-                    <div class="update-text" id="upd-1">Added new guide on writing compelling paper introductions.</div>
+                <div class="updates-column">
+                    <h3 id="updates-title">Recent Updates</h3>
+                    <div class="update-item">
+                        <span class="update-date">Apr 2026</span>
+                        <div class="update-text" id="upd-1">Added new guide on writing compelling paper introductions.</div>
+                    </div>
+                    <div class="update-item">
+                        <span class="update-date">Apr 2026</span>
+                        <div class="update-text" id="upd-2">Published introductory notes on Flow Matching intuition.</div>
+                    </div>
+                    <div class="update-item">
+                        <span class="update-date">Apr 2026</span>
+                        <div class="update-text" id="upd-3">Launched the Resources portal.</div>
+                    </div>
                 </div>
-                
-                <div class="update-item">
-                    <span class="update-date">Apr 2026</span>
-                    <div class="update-text" id="upd-2">Published introductory notes on Flow Matching intuition.</div>
-                </div>
-                
-                <div class="update-item">
-                    <span class="update-date">Apr 2026</span>
-                    <div class="update-text" id="upd-3">Launched the Resources portal.</div>
-                </div>
+
             </div>
 
             <div class="home-footer">
-                &copy; Shih-Hsin Wang (王士欣) // Last Modified: <script>document.write(new Date(document.lastModified).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));</script>
+                <div>&copy; Shih-Hsin Wang (王士欣) // Last Modified: <script>document.write(new Date(document.lastModified).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));</script></div>
                 
-                <div style="margin-top: 15px; display: flex; justify-content: center; align-items: center;">
+                <div style="margin-top: 2px;">
                     <img src="https://visitor-badge.laobi.icu/badge?page_id=shihhsinwang0214.notes&left_color=1a2b3c&right_color=c65d4a&left_text=Notes%20Visits" alt="Visitor Count">
                 </div>
             </div>
-
         </div>
 
         <div id="markdown-content" class="markdown-body">Loading...</div>
@@ -352,29 +291,21 @@
 
 let currentLang = localStorage.getItem("lang") || "en";
 
+// ==========================================
+// 1. ADD YOUR NOTES HERE
+// ==========================================
+// The Knowledge Tree automatically builds itself from this list!
 const notesData = {
     "themes": [
         {
-            title: {
-                en: "Flow Matching",
-                zh: "Flow Matching 筆記"
-            },
-            file: {
-                en: "notes/en/flow-matching.md",
-                zh: "notes/zh/flow-matching.md"
-            }
+            title: { en: "Flow Matching", zh: "Flow Matching 筆記" },
+            file: { en: "notes/en/flow-matching.md", zh: "notes/zh/flow-matching.md" }
         }
     ],
     "skills": [
         {
-            title: {
-                en: "Writing a Compelling Introduction",
-                zh: "如何寫一個有說服力的 Introduction"
-            },
-            file: {
-                en: "notes/en/write-intro.md",
-                zh: "notes/zh/write-intro.md"
-            }
+            title: { en: "Writing a Compelling Introduction", zh: "如何寫一個有說服力的 Introduction" },
+            file: { en: "notes/en/write-intro.md", zh: "notes/zh/write-intro.md" }
         }
     ]
 };
@@ -387,10 +318,7 @@ const categoryTitles = {
 const homeTranslations = {
     "home-title": { en: "Notes & Guides", zh: "筆記與指南" },
     "home-subtitle": { en: "A collection of research skill guides and technical notes on my research areas, intended as an open resource for anyone.", zh: "一些關於研究技能與相關領域的筆記，開放給所有對這些主題有興趣或從事研究的人。" },
-    "card-themes-title": { en: "Research Areas", zh: "研究領域" },
-    "card-themes-desc": { en: "Notes and relevant references on generative models, geometric deep learning, and AI for science.", zh: "關於生成模型、幾何深度學習、AI for Science的筆記與相關文獻。" },
-    "card-skills-title": { en: "Academic Skills", zh: "學術技能" },
-    "card-skills-desc": { en: "Guides on writing impactful papers, reading literature efficiently, and presenting research.", zh: "如何撰寫論文、閱讀文獻與報告技巧等。" },
+    "tree-root-title": { en: "Knowledge Base", zh: "知識庫" },
     "updates-title": { en: "Recent Updates", zh: "最新更新" },
     "upd-1": { en: "Added new guide on writing compelling paper introductions.", zh: "新增「如何寫出具說服力的論文 Introduction」。" },
     "upd-2": { en: "Published introductory notes on Flow Matching intuition.", zh: "發布 Flow Matching 核心直覺筆記。" },
@@ -404,11 +332,38 @@ function translateHome() {
     }
 }
 
+// Automatically builds the visual tree based on your notesData
+function buildDynamicTree() {
+    const treeContainer = document.getElementById('dynamic-tree');
+    treeContainer.innerHTML = ''; 
+
+    // Build Themes Branch
+    let themesHTML = `<div class="tree-branch">
+        <div class="tree-category" onclick="loadCategory('themes')">${categoryTitles['themes'][currentLang]}</div>
+        <div class="tree-leaves">`;
+    notesData['themes'].forEach((note, index) => {
+        themesHTML += `<div class="tree-leaf-item"><span class="tree-leaf" onclick="loadCategory('themes', event, ${index})">${note.title[currentLang]}</span></div>`;
+    });
+    themesHTML += `</div></div>`;
+
+    // Build Skills Branch
+    let skillsHTML = `<div class="tree-branch">
+        <div class="tree-category" onclick="loadCategory('skills')">${categoryTitles['skills'][currentLang]}</div>
+        <div class="tree-leaves">`;
+    notesData['skills'].forEach((note, index) => {
+        skillsHTML += `<div class="tree-leaf-item"><span class="tree-leaf" onclick="loadCategory('skills', event, ${index})">${note.title[currentLang]}</span></div>`;
+    });
+    skillsHTML += `</div></div>`;
+
+    treeContainer.innerHTML = themesHTML + skillsHTML;
+}
+
 function setLanguage(lang) {
     currentLang = lang;
     localStorage.setItem("lang", lang);
     
     translateHome();
+    buildDynamicTree(); // Rebuild tree with new language
 
     const container = document.getElementById('main-container');
     
@@ -440,6 +395,7 @@ function loadHome() {
     document.getElementById('main-container').classList.add('home-active');
     localStorage.setItem("currentCategory", "home");
     translateHome();
+    buildDynamicTree();
 }
 
 function loadCategory(categoryId, event, specificIndex = null) {
@@ -521,6 +477,7 @@ async function loadMarkdown(filePath, btnElement, categoryId, noteIndex) {
 
 window.onload = () => {
     translateHome();
+    buildDynamicTree();
     
     let lastCategory = localStorage.getItem("currentCategory") || "home";
     
