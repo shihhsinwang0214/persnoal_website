@@ -400,7 +400,7 @@ function setLanguage(lang) {
 
     // ⭐ Save the currently active category and note
     const activeCategoryBtn = document.querySelector('.cat-btn.active-cat');
-    const activeCategory = activeCategoryBtn ? activeCategoryBtn.textContent.toLowerCase() : "writing";
+    const activeCategory = activeCategoryBtn ? activeCategoryBtn.textContent.toLowerCase() : "skills";
 
     const activeNoteBtn = document.querySelector('.note-list button.active-note');
     const activeNoteFile = activeNoteBtn ? activeNoteBtn.getAttribute("data-file") : null;
@@ -500,7 +500,7 @@ async function loadMarkdown(filePath, btnElement, categoryId, noteFile) {
 }
 
 window.onload = () => {
-    let lastCategory = localStorage.getItem("currentCategory") || "writing";
+    let lastCategory = localStorage.getItem("currentCategory") || "skills";
     loadCategory(lastCategory);
 };
 
