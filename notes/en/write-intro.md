@@ -1,7 +1,6 @@
 # How to Write a Compelling Introduction
 
 A good introduction is not just a summary, but a clear story and argument.
-This style of writing is especially suitable for most method-driven and problem-driven papers (e.g., method, empirical, benchmarking, etc.).
 
 Our goal is to help the reader understand:
 
