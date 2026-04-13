@@ -1,72 +1,241 @@
-# Writing a Compelling Research Introduction
+# How to Write a Compelling Introduction
 
-A great introduction isn’t just a summary; it’s an **argument**. Your goal is to make the reader feel that the problem is urgent, current methods are fundamentally broken, and your solution is the only logical next step.
+A good introduction is not just a summary, but a clear story and argument.
+This style of writing is especially suitable for most method-driven and problem-driven papers (e.g., method, empirical, benchmarking, etc.).
 
----
+Our goal is to help the reader understand:
 
-## Step 1: Establish “Macro” Importance
-**Goal:** Hook the reader by explaining why this field and this specific problem matter to the world.
+1. Why this problem is important
+2. What limitations exist in current methods (or what is not yet well understood)
+3. How our work provides a new solution or perspective
 
-- **The Hook:** Start with the high-level application (e.g., drug discovery, protein folding, or generative modeling).
-- **The Bridge:** Connect the application to a specific mathematical or computational task.
+However, different types of papers (e.g., exploratory, position/perspective, or early-stage work) may have different emphases and narrative styles in their introduction.
 
-### Example: The Macro Hook
-
-| **Type** | **Example Text** |
-|:---|:---|
-| ❌ **Weak** | Deep learning has been very popular for modeling molecules in recent years. |
-| ✅ **Strong** | While deep learning has transformed drug discovery, its utility is gated by the ability to predict molecular binding affinity with high precision under 3D geometric constraints. |
+Below is a structure I personally use when writing papers, mainly applicable to method-oriented and empirical studies (e.g., method, empirical), for reference.
 
 ---
 
-## Step 2: The “Failure Mode” (The Limitation)
-**Goal:** Show exactly why existing state-of-the-art (SOTA) methods are insufficient. This is where you create the **“gap”** that your paper will fill.
+Before entering the structure, let’s look at an example:
 
-- **Identify the Bottleneck:** Is it computationally $O(N^2)$? Lack of theoretical guarantees? Loss of equivariance?
-- **The “Visualization” Strategy:** In the text, describe a specific “failure case.”
+> Graph Neural Networks have been very popular for modeling molecules in recent years. Many methods have been proposed and achieve good performance on benchmarks. However, there are still some limitations. In this work, we propose a new method to improve performance. Extensive experiments on several datasets show that our method performs better than existing approaches.
 
-> **Action for the Writer:** Insert a **Figure 1** here. This is your "Hero Graphic."
+How does it feel? Is it convincing?
+
+This paragraph only describes phenomena + vague improvement, without any verifiable claims.
+
+Now look at the version below:
+
+> Reliable predictive performance in molecular modeling is essential for accelerating materials design and drug discovery, where experimental evaluation is costly and time-consuming. While Graph Neural Networks have become a pivotal tool for modeling molecular structures, existing approaches still struggle to capture geometric symmetry and maintain principled distinguishability, which limits their performance. For example, as illustrated in Fig. 1, current methods fail to distinguish between certain pairs of distinct 3D configurations of molecules.
 >
-> **Figure 1 Concept: The Contrast Plot**
-> - **Left Panel (The "Failure"):** Show a standard model (e.g., a vanilla GNN) failing to distinguish between two different chemical structures (isomers) or failing to maintain symmetry. Label it *"Standard Methods: Geometric Drift."*
-> - **Right Panel (The "Solution"):** Show your model correctly identifying the structure or preserving the symmetry. Label it *"Ours: Symmetry-Preserving Representation."*
+> **Figure 1: Contrast Plot**
+>
+> * **Left (Failure):** Existing methods fail to distinguish between certain pairs of distinct 3D structures.
+>
+> * **Right (Solution):** Our method successfully distinguishes the structures.
+>
+> To address these limitations, we propose a graph neural network framework that incorporates equivariant geometric representations through canonicalization to respect geometric symmetry. We further prove, via the Weisfeiler–Lehman test, that our method can distinguish any pair of distinct 3D structures, ensuring principled distinguishability. Extensive experiments on existing datasets (QM9 and XXX) demonstrate that our method outperforms existing approaches by approximately 22% in accuracy, attributable to this property. Moreover, our approach achieves strong efficiency, reducing training time by 30% while maintaining high accuracy as the dataset scales, as demonstrated on large-scale protein datasets.
+
+This version is more convincing because it satisfies:
+
+1. The problem is specific and clearly important
+2. The limitation is explicit and visually or intuitively grounded
+3. The contribution is clearly stated, with method and improvements clearly identifiable
+4. Experimental results are quantifiable and directly compared to existing methods
+
+## ⭐ Core Tip: If you only read the introduction, would you believe the paper is important, impactful, and truly useful?
+
+## Step 1: Establish Importance
+
+**Goal:**
+Help the reader understand why this field and problem matter (capture attention first).
+
+**What to do:**
+Start from a broader context or important application (e.g., generative modeling for drug discovery, protein design, or equivariant GNNs for molecular modeling), and emphasize the value of the direction (e.g., efficiency, theoretical guarantees). Think in terms of “why do we need this problem/direction?”
+
+**Example:**
+
+| Type     | Example Text                                                                                                                                                                                                                                                                            |
+| :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ❌ Weak   | Graph Neural Networks have been very popular for modeling molecules in recent years.                                                                                                                                                                                                    |
+| ✅ Strong | Reliable predictive performance in molecular modeling is essential for accelerating materials design and drug discovery. Graph Neural Networks have become a pivotal tool in this domain, providing a structured framework to integrate data-driven learning with physical constraints. |
+
+**Key Ideas:**
+
+* Start from a “high-value objective”
+
+  * Do not begin only with technique (e.g., GNN); emphasize domain importance
+  * Highlight real-world impact (materials, drug discovery, cost)
+
+* Establish “inevitability”
+
+  * Not just popularity, but necessity
+  * Use strong wording (essential, pivotal, etc.)
+
+**Takeaway:**
+By raising the perceived importance, the *However* in the next section becomes more impactful and compelling.
 
 ---
 
-## Step 3: The “Principled” Proposal
-**Goal:** Introduce your method as a direct, mathematically grounded response to the failures identified in Step 2.
+## Step 2: Limitations and Gaps
 
-- **The Formula:** “We propose **[Name]** via **[Technique]** to address **[Limitation]**.”
-- **Highlight the Innovation:** Focus on the *why*, not just the *what*.
+**Goal:**
+Precisely identify limitations of existing SOTA methods and establish the research gap.
 
-### Example: The Proposal
+**What to do:**
 
-| **Feature** | ❌ **Bad (Descriptive Only)** | ✅ **Good (Principled / Insightful)** |
-|:---|:---|:---|
-| **Logic** | We added a new layer to the transformer to make it faster. | We reformulate the attention mechanism as a **low-rank kernel approximation**, reducing complexity from $O(N^2)$ to $O(N)$. |
-| **Phrasing** | Our model is called "Fast-ML" and it works well. | Our key insight is that by treating the problem as a **constrained optimization on a manifold**, we naturally satisfy the physical laws of the system. |
+* Describe bottlenecks in existing methods (e.g., from these perspectives):
+
+  * **Computational complexity:**
+    Existing methods scale poorly (e.g., (O(N^2))), making them impractical for large systems.
+
+  * **Lack of theoretical guarantees:**
+    Existing methods lack theoretical properties (e.g., convergence, stability), making results unreliable or untrustworthy.
+
+  * **Loss of important properties:**
+    Important structural properties are not preserved (e.g., equivariance, invariance, or geometric structure), limiting performance or physical plausibility.
+
+* Provide concrete failure cases
+
+  * Use examples instead of abstract criticism
+
+**Example:**
+
+> **Figure 1: Contrast Plot**
+>
+> * **Left (Failure):** Existing methods cannot distinguish different 3D structures (e.g., isomers)
+>   → *“Fail to distinguish between distinct 3D structures”*
+>
+> * **Right (Solution):** Our method successfully distinguishes them
+>   → *“Successfully distinguishes the structures”*
+
+**Key Ideas:**
+
+* Don’t just say “there is a problem”—make readers **see it**
+* Use visualization / examples to strengthen persuasion
+
+**Takeaway:**
+Make readers intuitively understand both existence and severity of the problem.
 
 ---
 
-## Step 4: Quantifiable Achievement
-**Goal:** Prove it works. End the intro with a “punch” of results.
+## Step 3: Our Contributions
 
-- **The Evidence:** Use "Hero Numbers" (e.g., “100× speedup,” “SOTA on QM9”).
-- **The “So What?”:** Briefly state the broader implication of your success.
+**Goal:**
+Clearly and concisely present your method and core contributions, explain design rationale, and show how it addresses the limitations above.
 
-### Result Summary Table
+**What to do:**
 
-| **Metric** | **Baseline (SOTA)** | **Our Method** | **Improvement** |
-|:---|:---|:---|:---|
-| **Accuracy (MAE)** | 0.152 | **0.084** | **45% Reduction** |
-| **Inference Time** | 240 ms | **12 ms** | **20× Speedup** |
-| **Memory Usage** | 8.2 GB | **1.1 GB** | **Scalable to Large Graphs** |
+* Clearly describe the proposed method (avoid excessive abstraction)
+* Highlight key design ideas, such as:
+
+  * Geometric structure
+  * Symmetry / equivariance
+  * Theoretical motivation / guarantees
+* Explicitly explain *why* the design addresses Step 2 limitations
+* Build a mapping between design and limitation (design ↔ limitation)
+
+**Example (Template):**
+
+> To address these limitations, we propose [method name], a [brief description].
+> Our approach is based on [core principle], which enables [key advantage].
+> In particular, it resolves [limitation 1] by [mechanism], and addresses [limitation 2] through [mechanism].
+
+**Key Ideas:**
+
+* **Design with justification:**
+  Don’t just propose a method—explain its motivation
+
+* **Directly address the gap:**
+  Each design choice should correspond to a stated limitation
+
+* **Make contributions explicit:**
+  You may list contributions such as:
+
+  * New method / architecture
+  * Theoretical analysis or guarantees
+  * Key performance-enabling properties
+
+**Bad vs Good Contribution Paragraph**
+
+| Type       | Example                                                                                                                                                                                                                                                                                                                                                 |
+| :--------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| ❌ **Bad**  | We propose a new graph neural network model for molecular modeling. Our model incorporates geometric information and achieves good performance on several benchmarks.                                                                                                                                                                                   |
+| ✅ **Good** | To address these limitations, we propose a graph neural network framework that incorporates equivariant geometric representations through canonicalization to respect geometric symmetry. We further prove, via the Weisfeiler–Lehman test, that our method can distinguish any pair of distinct 3D structures, ensuring principled distinguishability. |
+
+**Key Differences**
+
+* **From "what" → "why + how"**
+
+  * ❌ Weak: only states a model is proposed
+  * ✅ Strong: explains necessity + mechanism
+
+* **From empirical statement → mechanism-to-performance link**
+
+  * ❌ Weak: “better performance”
+  * ✅ Strong: explains why performance improves and provides theoretical grounding
 
 ---
 
-## Pro-Tips for the Final Polish
+**Takeaway:**
+Make the reader feel your method is not an accidental solution, but a systematic consequence of the problem structure.
 
-- **Zero Inference:** Don’t let the reader guess. If a model is slow, say *how* slow. If it’s inaccurate, say *where* it fails.
-- **The “Checklist” Test:** After writing, ask:  
-  *“If I only read the introduction and looked at Figure 1, do I understand the whole story?”*
-- **Signposting:** Use phrases like *"Crucially..."*, *"Unlike previous approaches..."*, and *"Our primary contribution is twofold:"* to guide the reader to the most important points.
+---
+
+## Step 4: Quantifiable Achievement (Results & Evidence)
+
+**Goal:**
+Use concrete, measurable, and visualizable results to demonstrate effectiveness and build credibility.
+
+**What to do:**
+
+* Provide experimental results
+* Emphasize quantitative metrics such as:
+
+  * accuracy / error reduction
+  * efficiency / speedup
+  * scalability
+* Optionally mention theoretical guarantees
+
+**Example (Template):**
+
+> Extensive experiments on [datasets] demonstrate that our method outperforms existing approaches by [X%] on [metric].
+> In addition, our approach achieves [property], while maintaining [efficiency / scalability].
+
+**Key Ideas:**
+
+* **Quantify instead of being vague**
+* **Select representative results only**
+* **Align with earlier gaps**
+
+### Bad vs Good Quantifiable Achievement Paragraph
+
+| Type       | Example                                                                                                                                                                                                                                     |
+| :--------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| ❌ **Bad**  | Extensive experiments show that our method performs better than existing approaches.                                                                                                                                                        |
+| ✅ **Good** | Extensive experiments on QM9 and XXX demonstrate that our method outperforms existing approaches by approximately 22% in accuracy. Moreover, it reduces training time by 30% while maintaining scalability on large-scale protein datasets. |
+
+**Takeaway:**
+Make readers not only *believe it works*, but *see that it works*.
+
+---
+
+## Pro-Tips (Writing Refinements)
+
+* **Zero Inference (no reader guessing)**
+  Do not let readers infer missing information: explicitly state everything. If slow, say slow; if wrong, say why. Use visuals whenever possible.
+  All transitions must be clear:
+  *problem → limitation → proposed method → result*
+
+* **Self-check sentence strength**
+  If a sentence feels weak, ask: is it missing specificity, causality, or necessity?
+
+* **Think structurally, not sentence-wise**
+  A good introduction is not a collection of sentences, but a reasoning chain.
+
+* **Final checklist test**
+  Ask yourself: if I only read the introduction, can I understand:
+
+  1. Why this problem matters
+  2. What current methods lack
+  3. What we propose
+  4. Why it works
