@@ -92,13 +92,14 @@
             color: var(--accent);
         }
 
+        /* DYNAMIC LAYOUT SUPPORT */
         .main-container {
             display: grid;
             grid-template-columns: 280px 1fr;
             flex-grow: 1;
-            overflow: hidden; /* Keeps the scrolling contained to the side/content */
+            overflow: hidden;
         }
-
+        
         .main-container.home-active {
             grid-template-columns: 1fr;
         }
@@ -109,7 +110,7 @@
             padding: 20px;
             overflow-y: auto;
         }
-
+        
         .main-container.home-active .sidebar {
             display: none;
         }
@@ -150,25 +151,86 @@
             display: none;
         }
 
-        .dashboard-header { margin-bottom: 30px; }
-        .dashboard-header h1 { font-size: 2.2rem; margin: 0 0 10px 0; color: var(--text); }
-        .dashboard-header p { font-size: 1.05rem; color: var(--text-muted); margin: 0; }
+        .dashboard-header {
+            margin-bottom: 30px;
+        }
+        .dashboard-header h1 {
+            font-size: 2.2rem;
+            margin: 0 0 10px 0;
+            color: var(--text);
+        }
+        .dashboard-header p {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
 
-        .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
 
         .dash-card {
-            background: #fff; border: 1px solid var(--border); border-radius: 12px;
-            padding: 25px; cursor: pointer; transition: all 0.2s ease;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
-        .dash-card:hover { border-color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.05); transform: translateY(-2px); }
-        .dash-card h3 { margin: 0 0 10px 0; color: var(--accent); font-size: 1.2rem; }
-        .dash-card p { margin: 0; font-size: 0.95rem; color: var(--text-muted); }
+        .dash-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transform: translateY(-2px);
+        }
+        .dash-card h3 {
+            margin: 0 0 10px 0;
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+        .dash-card p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
 
-        .updates-column { background: var(--box-math-bg); border-radius: 12px; padding: 25px; border: 1px solid var(--border); }
-        .updates-column h3 { margin: 0 0 20px 0; font-size: 1.1rem; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+        .updates-column {
+            background: var(--box-math-bg);
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid var(--border);
+        }
+        .updates-column h3 {
+            margin: 0 0 20px 0;
+            font-size: 1.1rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+        }
         .update-item { margin-bottom: 15px; }
-        .update-date { font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent); display: block; margin-bottom: 3px; }
-        .update-text { font-size: 0.95rem; line-height: 1.4; }
+        .update-date {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 3px;
+        }
+        .update-text {
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        /* ===== IN-DASHBOARD FOOTER ===== */
+        .home-footer {
+            grid-column: 1 / -1; /* Spans across both columns */
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 20px;
+            border-top: 1px solid var(--border);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
 
         /* ===== Table Styling ===== */
         .markdown-body table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95rem; table-layout: auto; }
@@ -270,20 +332,21 @@
                     <div class="update-text" id="upd-3">Launched the Resources portal.</div>
                 </div>
             </div>
+
+            <div class="home-footer">
+                &copy; Shih-Hsin Wang (王士欣) // Last Modified: <script>document.write(new Date(document.lastModified).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));</script>
+                
+                <div style="margin-top: 15px; display: flex; justify-content: center; align-items: center;">
+                    <img src="https://visitor-badge.laobi.icu/badge?page_id=shihhsinwang0214.notes&left_color=1a2b3c&right_color=c65d4a&left_text=Notes%20Visits" alt="Visitor Count">
+                </div>
+            </div>
+
         </div>
 
         <div id="markdown-content" class="markdown-body">Loading...</div>
     </main>
 
 </div>
-
-<footer style="text-align: center; padding: 20px; font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-mono); border-top: 1px solid var(--border); background-color: var(--bg); flex-shrink: 0;">
-    &copy; Shih-Hsin Wang (王士欣) // Last Modified: <script>document.write(new Date(document.lastModified).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));</script>
-    
-    <div style="margin-top: 12px; display: flex; justify-content: center; align-items: center;">
-        <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://shihhsinwang0214.github.io/persnoal_website/notes.html&count_bg=%23c65d4a&title_bg=%231a2b3c&title=Notes+Visits&edge_flat=true" alt="Visitor Count">
-    </div>
-</footer>
 
 <script>
 
