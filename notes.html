@@ -9,17 +9,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
-    <!-- KaTeX (Math) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     
-    <!-- Prism (Code Highlight) -->
     <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
-    
-    <!-- Marked -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
@@ -97,16 +92,26 @@
             color: var(--accent);
         }
 
+        /* DYNAMIC LAYOUT SUPPORT */
         .main-container {
             display: grid;
             grid-template-columns: 280px 1fr;
             flex-grow: 1;
+        }
+        
+        /* Hides sidebar on the Home view */
+        .main-container.home-active {
+            grid-template-columns: 1fr;
         }
 
         .sidebar {
             background-color: var(--box-ml-bg);
             border-right: 1px solid var(--border);
             padding: 20px;
+        }
+        
+        .main-container.home-active .sidebar {
+            display: none;
         }
 
         .note-list button {
@@ -127,204 +132,130 @@
             padding: 40px;
             overflow-y: auto;
         }
-        /* ===== Table Styling (Fix cramped layout) ===== */
-        .markdown-body table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 0.95rem;
-        }
-        
-        .markdown-body th,
-        .markdown-body td {
-            border: 1px solid var(--border);
-            padding: 12px 14px;   /* ⭐ 關鍵：讓內容有空間 */
-            text-align: left;
-            vertical-align: top;
-            line-height: 1.6;
-        }
-        
-        .markdown-body th {
-            background-color: var(--box-ml-bg);
-            font-weight: 600;
-        }
-        
-        .markdown-body tr:nth-child(even) {
-            background-color: #fafafa;
-        }
-        
-        /* ⭐ 讓長句子自動換行（非常重要） */
-        .markdown-body td {
-            word-break: break-word;
-        }
-        
-        /* ⭐ 避免第一欄太窄 */
-        .markdown-body td:first-child,
-        .markdown-body th:first-child {
-            width: 140px;
-            white-space: nowrap;
-        }
-        .markdown-body {
-    max-width: 900px;   /* 原本 800 可以稍微放寬 */
-}
 
-        .markdown-body table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: auto;   /* ⭐ 讓瀏覽器自動分配 */
-}
+        /* ===== HOME DASHBOARD STYLES ===== */
+        .home-dashboard {
+            display: none;
+            max-width: 1100px;
+            margin: 0 auto;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+        
+        .main-container.home-active .home-dashboard {
+            display: grid;
+        }
+        
+        .main-container.home-active #markdown-content {
+            display: none;
+        }
+
+        .dashboard-header {
+            margin-bottom: 30px;
+        }
+        .dashboard-header h1 {
+            font-size: 2.2rem;
+            margin: 0 0 10px 0;
+            color: var(--text);
+        }
+        .dashboard-header p {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .dash-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .dash-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transform: translateY(-2px);
+        }
+        .dash-card h3 {
+            margin: 0 0 10px 0;
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+        .dash-card p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .updates-column {
+            background: var(--box-math-bg);
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid var(--border);
+        }
+        .updates-column h3 {
+            margin: 0 0 20px 0;
+            font-size: 1.1rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+        }
+        .update-item {
+            margin-bottom: 15px;
+        }
+        .update-date {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 3px;
+        }
+        .update-text {
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        /* ===== Table Styling (Fix cramped layout) ===== */
+        .markdown-body table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95rem; }
+        .markdown-body th, .markdown-body td { border: 1px solid var(--border); padding: 12px 14px; text-align: left; vertical-align: top; line-height: 1.6; word-break: break-word; }
+        .markdown-body th { background-color: var(--box-ml-bg); font-weight: 600; }
+        .markdown-body tr:nth-child(even) { background-color: #fafafa; }
+        .markdown-body td:first-child, .markdown-body th:first-child { width: 140px; white-space: nowrap; }
+        .markdown-body { max-width: 900px; margin: 0; font-size: 16px; line-height: 1.75; }
+        .markdown-body table { table-layout: auto; }
 
         @media (max-width: 768px) {
-    .markdown-body table {
-        display: block;
-        overflow-x: auto;
-    }
+            .home-dashboard { grid-template-columns: 1fr; }
+            .card-grid { grid-template-columns: 1fr; }
+            .markdown-body table { display: block; overflow-x: auto; }
+            .category-nav { flex-wrap: wrap; gap: 10px; }
+            header { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .main-container { display: block; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); padding: 10px; }
+            .note-list { display: flex; overflow-x: auto; gap: 8px; }
+            .note-list li { flex: 0 0 auto; }
+            .note-list button { white-space: nowrap; border: 1px solid var(--border); border-radius: 20px; padding: 6px 12px; }
+            .content { padding: 20px; }
+            .markdown-body { max-width: 100%; }
+        }
 
-    .category-nav {
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-
-    header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-
-    /* 🔥 1. grid → single column */
-    .main-container {
-        display: block;
-    }
-
-    /* 🔥 2. sidebar 變 top bar */
-    .sidebar {
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-        padding: 10px;
-    }
-
-    /* 🔥 3. note list → 橫向 scroll */
-    .note-list {
-        display: flex;
-        overflow-x: auto;
-        gap: 8px;
-    }
-
-    .note-list li {
-        flex: 0 0 auto;
-    }
-
-    .note-list button {
-        white-space: nowrap;
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        padding: 6px 12px;
-    }
-
-    /* 🔥 4. content 滿版 */
-    .content {
-        padding: 20px;
-    }
-
-    /* 🔥 5. markdown 不要限制寬度 */
-    .markdown-body {
-        max-width: 100%;
-    }
-}
-
-
-
-/* ===== Notion-style markdown ===== */
-
-.markdown-body {
-    max-width: 800px;
-    margin: 0;
-    font-size: 16px;
-    line-height: 1.75;
-}
-
-/* Headings */
-.markdown-body h1 {
-    font-size: 2rem;
-    margin-top: 0;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 8px;
-}
-
-.markdown-body h2 {
-    margin-top: 32px;
-    font-size: 1.5rem;
-}
-
-.markdown-body h3 {
-    margin-top: 24px;
-}
-
-/* Paragraph */
-.markdown-body p {
-    margin: 14px 0;
-}
-
-/* Lists */
-.markdown-body ul {
-    padding-left: 20px;
-}
-
-/* Blockquote (Notion style) */
-.markdown-body blockquote {
-    border-left: 3px solid var(--accent);
-    padding-left: 12px;
-    color: var(--text-muted);
-    background: var(--box-ml-bg);
-    border-radius: 6px;
-}
-
-/* Code inline */
-.markdown-body code {
-    background: var(--box-math-bg);
-    padding: 3px 6px;
-    border-radius: 4px;
-    font-size: 0.9em;
-}
-
-/* Code block */
-.markdown-body pre {
-    background: #1a2b3c;
-    color: white;
-    padding: 16px;
-    border-radius: 8px;
-    overflow-x: auto;
-}
-
-/* Tables */
-.markdown-body table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-}
-
-.markdown-body th,
-.markdown-body td {
-    border: 1px solid var(--border);
-    padding: 12px;
-    vertical-align: top;
-}
-
-.markdown-body th {
-    background: var(--box-ml-bg);
-}
-
-/* Math spacing */
-.katex-display {
-    margin: 20px 0;
-    overflow-x: auto;
-}
-
-/* Smooth scrolling */
-html {
-    scroll-behavior: smooth;
-}
+        /* ===== Notion-style markdown ===== */
+        .markdown-body h1 { font-size: 2rem; margin-top: 0; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+        .markdown-body h2 { margin-top: 32px; font-size: 1.5rem; }
+        .markdown-body h3 { margin-top: 24px; }
+        .markdown-body p { margin: 14px 0; }
+        .markdown-body ul { padding-left: 20px; }
+        .markdown-body blockquote { border-left: 3px solid var(--accent); padding-left: 12px; color: var(--text-muted); background: var(--box-ml-bg); border-radius: 6px; }
+        .markdown-body code { background: var(--box-math-bg); padding: 3px 6px; border-radius: 4px; font-size: 0.9em; }
+        .markdown-body pre { background: #1a2b3c; color: white; padding: 16px; border-radius: 8px; overflow-x: auto; }
+        .katex-display { margin: 20px 0; overflow-x: auto; }
+        html { scroll-behavior: smooth; }
         
     </style>
 </head>
@@ -332,18 +263,20 @@ html {
 <body>
 
 <header>
-    <a href="index.html" class="back-btn">← Back</a>
+    <a href="index.html" class="back-btn">← Main Website</a>
     <div class="category-nav">
-        <button class="cat-btn active-cat" onclick="loadCategory('themes', event)">Research Areas</button>
-        <button class="cat-btn" onclick="loadCategory('skills', event)">Academic Skills</button>
+        <button class="cat-btn" id="btn-home" onclick="loadHome()">Home</button>
+        <button class="cat-btn" id="btn-themes" onclick="loadCategory('themes', event)">Research Areas</button>
+        <button class="cat-btn" id="btn-skills" onclick="loadCategory('skills', event)">Academic Skills</button>
 
         <div class="lang-switch">
             <button onclick="setLanguage('en')">EN</button>
             <button onclick="setLanguage('zh')">中文</button>
         </div>
+    </div>
 </header>
 
-<div class="main-container">
+<div class="main-container" id="main-container">
 
     <aside class="sidebar">
         <h3 id="sidebar-title"></h3>
@@ -351,6 +284,46 @@ html {
     </aside>
 
     <main class="content">
+        
+        <div class="home-dashboard" id="home-dashboard">
+            <div class="dashboard-main">
+                <div class="dashboard-header">
+                    <h1 id="home-title">Lab Resources & Notes</h1>
+                    <p id="home-subtitle">A collection of research guides, structural methodologies, and onboarding materials for students and collaborators.</p>
+                </div>
+
+                <div class="card-grid">
+                    <div class="dash-card" onclick="loadCategory('themes', event)">
+                        <h3 id="card-themes-title">Research Areas</h3>
+                        <p id="card-themes-desc">Introductory notes and literature maps detailing our focus on generative models and geometric deep learning.</p>
+                    </div>
+                    <div class="dash-card" onclick="loadCategory('skills', event)">
+                        <h3 id="card-skills-title">Academic Skills</h3>
+                        <p id="card-skills-desc">Actionable guides on writing impactful papers, reading literature efficiently, and presenting research.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="updates-column">
+                <h3 id="updates-title">Recent Updates</h3>
+                
+                <div class="update-item">
+                    <span class="update-date">Apr 2026</span>
+                    <div class="update-text" id="upd-1">Added new guide on writing compelling paper introductions.</div>
+                </div>
+                
+                <div class="update-item">
+                    <span class="update-date">Mar 2026</span>
+                    <div class="update-text" id="upd-2">Published introductory notes on Flow Matching intuition.</div>
+                </div>
+                
+                <div class="update-item">
+                    <span class="update-date">Feb 2026</span>
+                    <div class="update-text" id="upd-3">Launched the Lab Resources portal.</div>
+                </div>
+            </div>
+        </div>
+
         <div id="markdown-content" class="markdown-body">Loading...</div>
     </main>
 
@@ -368,8 +341,8 @@ const notesData = {
                 zh: "Flow Matching 筆記"
             },
             file: {
-                /*en: "notes/en/flow-matching.md",*/
-                /*zh: "notes/zh/flow-matching.md"*/
+                en: "notes/en/flow-matching.md",
+                zh: "notes/zh/flow-matching.md"
             }
         }
     ],
@@ -387,101 +360,143 @@ const notesData = {
     ]
 };
 
-
-
 const categoryTitles = {
     "themes": { en: "Research Areas", zh: "研究領域" },
     "skills": { en: "Academic Skills", zh: "學術技能" }
 };
 
-function setLanguage(lang) {
-    currentLang = lang;
-    localStorage.setItem("lang", lang);
+// Translations for the Home Dashboard
+const homeTranslations = {
+    "home-title": { en: "Lab Resources & Notes", zh: "實驗室資源與筆記" },
+    "home-subtitle": { en: "A collection of research guides, structural methodologies, and onboarding materials for students and collaborators.", zh: "專為學生與合作者提供的研究指南、方法論與入門資料。" },
+    "card-themes-title": { en: "Research Areas", zh: "研究領域" },
+    "card-themes-desc": { en: "Introductory notes and literature maps detailing our focus on generative models and geometric deep learning.", zh: "關於生成模型與幾何深度學習的入門筆記與文獻地圖。" },
+    "card-skills-title": { en: "Academic Skills", zh: "學術技能" },
+    "card-skills-desc": { en: "Actionable guides on writing impactful papers, reading literature efficiently, and presenting research.", zh: "關於如何撰寫論文、高效閱讀文獻與簡報技巧的實用指南。" },
+    "updates-title": { en: "Recent Updates", zh: "最新更新" },
+    "upd-1": { en: "Added new guide on writing compelling paper introductions.", zh: "新增「如何寫出具說服力的論文 Introduction」指南。" },
+    "upd-2": { en: "Published introductory notes on Flow Matching intuition.", zh: "發布 Flow Matching 核心直覺筆記。" },
+    "upd-3": { en: "Launched the Lab Resources portal.", zh: "正式建立實驗室資源站。" }
+};
 
-    // ⭐ Save the currently active category and note
-    const activeCategoryBtn = document.querySelector('.cat-btn.active-cat');
-    const activeCategory = activeCategoryBtn ? activeCategoryBtn.textContent.toLowerCase() : "skills";
-
-    const activeNoteBtn = document.querySelector('.note-list button.active-note');
-    const activeNoteFile = activeNoteBtn ? activeNoteBtn.getAttribute("data-file") : null;
-
-    // Reload the same category but in the new language
-    loadCategory(activeCategory, { target: activeCategoryBtn });
-
-    // After loadCategory, restore the same note in the new language
-    if (activeNoteFile) {
-        const listContainer = document.getElementById('note-list-container');
-        const btnToClick = Array.from(listContainer.querySelectorAll('button'))
-                                .find(b => b.innerText === activeNoteBtn.innerText);
-        if (btnToClick) {
-            loadMarkdown(btnToClick.getAttribute("data-file"), btnToClick, activeCategory, btnToClick.getAttribute("data-file"));
-        }
+function translateHome() {
+    for (const [id, texts] of Object.entries(homeTranslations)) {
+        const el = document.getElementById(id);
+        if (el) el.innerText = texts[currentLang];
     }
 }
 
-function loadCategory(categoryId, event) {
-    // ⭐ Always update active tab (NOT dependent on event)
-    document.querySelectorAll('.cat-btn').forEach(btn => {
-        btn.classList.remove('active-cat');
+function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem("lang", lang);
+    
+    // Translate the dashboard if it exists
+    translateHome();
 
-        // match based on onclick content
-        if (btn.getAttribute("onclick").includes(categoryId)) {
-            btn.classList.add('active-cat');
-        }
-    });
+    const container = document.getElementById('main-container');
+    
+    // If currently on home, just update the language state and stay on home
+    if (container.classList.contains('home-active')) {
+        return;
+    }
 
-    document.getElementById('sidebar-title').innerText =
-        categoryTitles[categoryId][currentLang];
+    // Otherwise, reload current category and note
+    const activeCategoryBtn = document.querySelector('.cat-btn.active-cat');
+    let activeCategory = "skills"; // default fallback
+    
+    if (activeCategoryBtn) {
+        if (activeCategoryBtn.getAttribute('onclick').includes('themes')) activeCategory = 'themes';
+        if (activeCategoryBtn.getAttribute('onclick').includes('skills')) activeCategory = 'skills';
+    }
+
+    const activeNoteBtn = document.querySelector('.note-list button.active-note');
+    let activeIndex = 0;
+    if (activeNoteBtn) {
+        activeIndex = activeNoteBtn.getAttribute("data-index");
+    }
+
+    loadCategory(activeCategory, null, activeIndex);
+}
+
+// Function to load the Home Dashboard
+function loadHome() {
+    // Set UI state
+    document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active-cat'));
+    document.getElementById('btn-home').classList.add('active-cat');
+    
+    // Toggle Layout
+    document.getElementById('main-container').classList.add('home-active');
+    
+    // Save state
+    localStorage.setItem("currentCategory", "home");
+    
+    // Ensure translation is correct
+    translateHome();
+}
+
+function loadCategory(categoryId, event, specificIndex = null) {
+    // Set UI state
+    document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active-cat'));
+    document.getElementById('btn-' + categoryId).classList.add('active-cat');
+    
+    // Toggle Layout to show markdown
+    document.getElementById('main-container').classList.remove('home-active');
+
+    document.getElementById('sidebar-title').innerText = categoryTitles[categoryId][currentLang];
 
     const listContainer = document.getElementById('note-list-container');
     listContainer.innerHTML = '';
 
-    notesData[categoryId].forEach(note => {
+    notesData[categoryId].forEach((note, index) => {
         const li = document.createElement('li');
         const btn = document.createElement('button');
 
         btn.innerText = note.title[currentLang];
-        btn.setAttribute("data-file", note.file[currentLang]); // ⭐ store file path for easy lookup
-        btn.onclick = (e) => loadMarkdown(note.file[currentLang], e.target, categoryId, note.file[currentLang]);
+        btn.setAttribute("data-file", note.file[currentLang]); 
+        btn.setAttribute("data-index", index); 
+        btn.onclick = (e) => loadMarkdown(note.file[currentLang], e.target, categoryId, index);
 
         li.appendChild(btn);
         listContainer.appendChild(li);
     });
 
-    // Restore previously selected note for this category, if any
-    let savedNote = localStorage.getItem("currentNote-" + categoryId);
-    let btnToClick;
-    if (savedNote) {
-        btnToClick = Array.from(listContainer.querySelectorAll('button'))
-                          .find(b => b.getAttribute("data-file") === savedNote);
+    // Determine which note to open
+    let indexToLoad = specificIndex;
+    
+    if (indexToLoad === null) {
+        indexToLoad = localStorage.getItem("currentNoteIndex-" + categoryId);
+    }
+    
+    let btnToClick = null;
+    if (indexToLoad !== null) {
+        btnToClick = listContainer.querySelector(`button[data-index="${indexToLoad}"]`);
     }
     if (!btnToClick) {
-        btnToClick = listContainer.querySelector('button'); // default to first note
+        btnToClick = listContainer.querySelector('button'); // default to first
     }
 
     if (btnToClick) {
-        loadMarkdown(btnToClick.getAttribute("data-file"), btnToClick, categoryId, btnToClick.getAttribute("data-file"));
+        loadMarkdown(btnToClick.getAttribute("data-file"), btnToClick, categoryId, btnToClick.getAttribute("data-index"));
     }
 }
 
-async function loadMarkdown(filePath, btnElement, categoryId, noteFile) {
+async function loadMarkdown(filePath, btnElement, categoryId, noteIndex) {
     document.querySelectorAll('.note-list button').forEach(b => b.classList.remove('active-note'));
     if (btnElement) btnElement.classList.add('active-note');
 
     localStorage.setItem("currentCategory", categoryId);
-    localStorage.setItem("currentNote-" + categoryId, noteFile);
+    localStorage.setItem("currentNoteIndex-" + categoryId, noteIndex);
 
     const contentDiv = document.getElementById('markdown-content');
     contentDiv.innerHTML = "Loading...";
 
     try {
         const res = await fetch(filePath);
+        if (!res.ok) throw new Error("File not found");
         const text = await res.text();
 
-        // ⭐ Markdown → HTML
         contentDiv.innerHTML = marked.parse(text);
 
-        // ⭐ Math render (KaTeX)
         renderMathInElement(contentDiv, {
             delimiters: [
                 {left: "$$", right: "$$", display: true},
@@ -491,17 +506,28 @@ async function loadMarkdown(filePath, btnElement, categoryId, noteFile) {
             ]
         });
 
-        // ⭐ Code highlight
         Prism.highlightAllUnder(contentDiv);
 
     } catch {
-        contentDiv.innerHTML = "File not found.";
+        contentDiv.innerHTML = `
+            <h1>File not found</h1>
+            <p>Could not load <code>${filePath}</code>.</p>
+        `;
     }
 }
 
 window.onload = () => {
-    let lastCategory = localStorage.getItem("currentCategory") || "skills";
-    loadCategory(lastCategory);
+    // Translate dashboard initially
+    translateHome();
+    
+    // Load last state
+    let lastCategory = localStorage.getItem("currentCategory") || "home";
+    
+    if (lastCategory === "home") {
+        loadHome();
+    } else {
+        loadCategory(lastCategory);
+    }
 };
 
 </script>
