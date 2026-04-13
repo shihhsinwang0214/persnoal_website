@@ -1,7 +1,6 @@
 # 如何寫出一個有說服力的 Introduction
 
 一個好的 introduction 不只是 summary，而是一個清楚的 story 與 argument。  
-這樣的寫作方式特別適用於多數方法導向與問題導向的論文（例如 method、empirical、benchmarking 等）。
 
 我們的目標是讓讀者理解：
 
