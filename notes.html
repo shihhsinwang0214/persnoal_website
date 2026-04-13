@@ -443,8 +443,8 @@ async function loadMarkdown(filePath, btnElement, categoryId, noteIndex) {
     document.querySelectorAll('.note-list button').forEach(b => b.classList.remove('active-note'));
     if (btnElement) btnElement.classList.add('active-note');
 
-    localStorage.setItem("currentCategory", categoryId);
-    localStorage.setItem("currentNoteIndex-" + categoryId, noteIndex);
+    sessionStorage.setItem("currentCategory", categoryId);
+    sessionStorage.setItem("currentNoteIndex-" + categoryId, noteIndex);
 
     const contentDiv = document.getElementById('markdown-content');
     contentDiv.innerHTML = "Loading...";
@@ -478,10 +478,16 @@ async function loadMarkdown(filePath, btnElement, categoryId, noteIndex) {
 window.onload = () => {
     translateHome();
     buildDynamicTree();
-    
-    let lastCategory = localStorage.getItem("currentCategory") || "home";
-    
-    if (lastCategory === "home") {
+
+    // 1. Check if the URL has a "new session" flag
+    const urlParams = new URLSearchParams(window.location.search);
+    const forceHome = urlParams.get('home') === 'true';
+
+    // 2. Use sessionStorage instead of localStorage
+    let lastCategory = sessionStorage.getItem("currentCategory") || "home";
+
+    // 3. If they come from your link with ?home=true, force the home page
+    if (forceHome || lastCategory === "home") {
         loadHome();
     } else {
         loadCategory(lastCategory);
