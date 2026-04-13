@@ -335,12 +335,16 @@ html {
     <a href="index.html" class="back-btn">← Back</a>
 
     <div class="category-nav">
-        <button class="cat-btn active-cat" onclick="loadCategory('writing', event)">Writing</button>
-        <button class="cat-btn" onclick="loadCategory('research', event)">Research</button>
+        <button class="cat-btn active-cat" onclick="loadCategory('writing', event)">Writing Notes</button>
+        <button class="cat-btn" onclick="loadCategory('research', event)">Research Notes</button>
 
         <div class="lang-switch">
             <button onclick="setLanguage('en')">EN</button>
             <button onclick="setLanguage('zh')">中文</button>
+        </div>
+
+        <div style="width: 130px; display: flex; justify-content: flex-end; align-items: center;">
+            <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://shihhsinwang0214.github.io/persnoal_website/notes.html&count_bg=%23c65d4a&title_bg=%231a2b3c&title=Notes+Visits&edge_flat=true" alt="Visitor Count">
         </div>
     </div>
 </header>
@@ -363,10 +367,22 @@ html {
 let currentLang = localStorage.getItem("lang") || "en";
 
 const notesData = {
-    "writing": [
+    "themes": [
         {
             title: {
-                en: "Writing a Strong Introduction",
+                en: "Flow Matching",
+                zh: "Flow Matching 筆記"
+            },
+            file: {
+                /*en: "notes/en/flow-matching.md",*/
+                /*zh: "notes/zh/flow-matching.md"*/
+            }
+        }
+    ],
+    "skills": [
+        {
+            title: {
+                en: "Writing a Compelling Introduction",
                 zh: "如何寫一個有說服力的 Introduction"
             },
             file: {
@@ -374,26 +390,14 @@ const notesData = {
                 zh: "notes/zh/write-intro.md"
             }
         }
-    ],
-    "research": [
-        {
-            title: {
-                en: "Flow Matching",
-                zh: "Flow Matching 筆記"
-            },
-            file: {
-                /*en: "notes/en/     */
-                     /*flow-matching.md",*/
-                /*zh: "notes/zh/     */
-                /*flow-matching.md"*/
-            }
-        }
     ]
 };
 
+
+
 const categoryTitles = {
-    "writing": { en: "Writing Skills", zh: "寫作技巧" },
-    "research": { en: "Research Topics", zh: "研究主題" }
+    "themes": { en: "Research Areas", zh: "研究領域" },
+    "skills": { en: "Academic Skills", zh: "學術技能" }
 };
 
 function setLanguage(lang) {
