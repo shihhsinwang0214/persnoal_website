@@ -92,14 +92,13 @@
             color: var(--accent);
         }
 
-        /* DYNAMIC LAYOUT SUPPORT */
         .main-container {
             display: grid;
             grid-template-columns: 280px 1fr;
             flex-grow: 1;
+            overflow: hidden; /* Keeps the scrolling contained to the side/content */
         }
-        
-        /* Hides sidebar on the Home view */
+
         .main-container.home-active {
             grid-template-columns: 1fr;
         }
@@ -108,8 +107,9 @@
             background-color: var(--box-ml-bg);
             border-right: 1px solid var(--border);
             padding: 20px;
+            overflow-y: auto;
         }
-        
+
         .main-container.home-active .sidebar {
             display: none;
         }
@@ -150,85 +150,33 @@
             display: none;
         }
 
-        .dashboard-header {
-            margin-bottom: 30px;
-        }
-        .dashboard-header h1 {
-            font-size: 2.2rem;
-            margin: 0 0 10px 0;
-            color: var(--text);
-        }
-        .dashboard-header p {
-            font-size: 1.05rem;
-            color: var(--text-muted);
-            margin: 0;
-        }
+        .dashboard-header { margin-bottom: 30px; }
+        .dashboard-header h1 { font-size: 2.2rem; margin: 0 0 10px 0; color: var(--text); }
+        .dashboard-header p { font-size: 1.05rem; color: var(--text-muted); margin: 0; }
 
-        .card-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
+        .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
         .dash-card {
-            background: #fff;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 25px;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            background: #fff; border: 1px solid var(--border); border-radius: 12px;
+            padding: 25px; cursor: pointer; transition: all 0.2s ease;
         }
-        .dash-card:hover {
-            border-color: var(--accent);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            transform: translateY(-2px);
-        }
-        .dash-card h3 {
-            margin: 0 0 10px 0;
-            color: var(--accent);
-            font-size: 1.2rem;
-        }
-        .dash-card p {
-            margin: 0;
-            font-size: 0.95rem;
-            color: var(--text-muted);
-        }
+        .dash-card:hover { border-color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.05); transform: translateY(-2px); }
+        .dash-card h3 { margin: 0 0 10px 0; color: var(--accent); font-size: 1.2rem; }
+        .dash-card p { margin: 0; font-size: 0.95rem; color: var(--text-muted); }
 
-        .updates-column {
-            background: var(--box-math-bg);
-            border-radius: 12px;
-            padding: 25px;
-            border: 1px solid var(--border);
-        }
-        .updates-column h3 {
-            margin: 0 0 20px 0;
-            font-size: 1.1rem;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 10px;
-        }
-        .update-item {
-            margin-bottom: 15px;
-        }
-        .update-date {
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            color: var(--accent);
-            display: block;
-            margin-bottom: 3px;
-        }
-        .update-text {
-            font-size: 0.95rem;
-            line-height: 1.4;
-        }
+        .updates-column { background: var(--box-math-bg); border-radius: 12px; padding: 25px; border: 1px solid var(--border); }
+        .updates-column h3 { margin: 0 0 20px 0; font-size: 1.1rem; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+        .update-item { margin-bottom: 15px; }
+        .update-date { font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent); display: block; margin-bottom: 3px; }
+        .update-text { font-size: 0.95rem; line-height: 1.4; }
 
-        /* ===== Table Styling (Fix cramped layout) ===== */
-        .markdown-body table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95rem; }
+        /* ===== Table Styling ===== */
+        .markdown-body table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95rem; table-layout: auto; }
         .markdown-body th, .markdown-body td { border: 1px solid var(--border); padding: 12px 14px; text-align: left; vertical-align: top; line-height: 1.6; word-break: break-word; }
         .markdown-body th { background-color: var(--box-ml-bg); font-weight: 600; }
         .markdown-body tr:nth-child(even) { background-color: #fafafa; }
         .markdown-body td:first-child, .markdown-body th:first-child { width: 140px; white-space: nowrap; }
         .markdown-body { max-width: 900px; margin: 0; font-size: 16px; line-height: 1.75; }
-        .markdown-body table { table-layout: auto; }
 
         @media (max-width: 768px) {
             .home-dashboard { grid-template-columns: 1fr; }
@@ -289,7 +237,7 @@
             <div class="dashboard-main">
                 <div class="dashboard-header">
                     <h1 id="home-title">Notes & Guides</h1>
-                    <p id="home-subtitle">A collection of research skill guides and technical notes on my research areas, intended as an open resource for anyone..</p>
+                    <p id="home-subtitle">A collection of research skill guides and technical notes on my research areas, intended as an open resource for anyone.</p>
                 </div>
 
                 <div class="card-grid">
@@ -329,6 +277,14 @@
 
 </div>
 
+<footer style="text-align: center; padding: 20px; font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-mono); border-top: 1px solid var(--border); background-color: var(--bg); flex-shrink: 0;">
+    &copy; Shih-Hsin Wang (王士欣) // Last Modified: <script>document.write(new Date(document.lastModified).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));</script>
+    
+    <div style="margin-top: 12px; display: flex; justify-content: center; align-items: center;">
+        <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://shihhsinwang0214.github.io/persnoal_website/notes.html&count_bg=%23c65d4a&title_bg=%231a2b3c&title=Notes+Visits&edge_flat=true" alt="Visitor Count">
+    </div>
+</footer>
+
 <script>
 
 let currentLang = localStorage.getItem("lang") || "en";
@@ -365,7 +321,6 @@ const categoryTitles = {
     "skills": { en: "Academic Skills", zh: "學術技能" }
 };
 
-// Translations for the Home Dashboard
 const homeTranslations = {
     "home-title": { en: "Notes & Guides", zh: "筆記與指南" },
     "home-subtitle": { en: "A collection of research skill guides and technical notes on my research areas, intended as an open resource for anyone.", zh: "一些關於研究技能與相關領域的筆記，開放給所有對這些主題有興趣或從事研究的人。" },
@@ -376,7 +331,7 @@ const homeTranslations = {
     "updates-title": { en: "Recent Updates", zh: "最新更新" },
     "upd-1": { en: "Added new guide on writing compelling paper introductions.", zh: "新增「如何寫出具說服力的論文 Introduction」。" },
     "upd-2": { en: "Published introductory notes on Flow Matching intuition.", zh: "發布 Flow Matching 核心直覺筆記。" },
-    "upd-3": { en: "Launched the Lab Resources portal.", zh: "正式建立資源站。" }
+    "upd-3": { en: "Launched the Resources portal.", zh: "正式建立資源站。" }
 };
 
 function translateHome() {
@@ -390,19 +345,16 @@ function setLanguage(lang) {
     currentLang = lang;
     localStorage.setItem("lang", lang);
     
-    // Translate the dashboard if it exists
     translateHome();
 
     const container = document.getElementById('main-container');
     
-    // If currently on home, just update the language state and stay on home
     if (container.classList.contains('home-active')) {
         return;
     }
 
-    // Otherwise, reload current category and note
     const activeCategoryBtn = document.querySelector('.cat-btn.active-cat');
-    let activeCategory = "skills"; // default fallback
+    let activeCategory = "skills"; 
     
     if (activeCategoryBtn) {
         if (activeCategoryBtn.getAttribute('onclick').includes('themes')) activeCategory = 'themes';
@@ -418,30 +370,20 @@ function setLanguage(lang) {
     loadCategory(activeCategory, null, activeIndex);
 }
 
-// Function to load the Home Dashboard
 function loadHome() {
-    // Set UI state
     document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active-cat'));
     document.getElementById('btn-home').classList.add('active-cat');
     
-    // Toggle Layout
     document.getElementById('main-container').classList.add('home-active');
-    
-    // Save state
     localStorage.setItem("currentCategory", "home");
-    
-    // Ensure translation is correct
     translateHome();
 }
 
 function loadCategory(categoryId, event, specificIndex = null) {
-    // Set UI state
     document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active-cat'));
     document.getElementById('btn-' + categoryId).classList.add('active-cat');
     
-    // Toggle Layout to show markdown
     document.getElementById('main-container').classList.remove('home-active');
-
     document.getElementById('sidebar-title').innerText = categoryTitles[categoryId][currentLang];
 
     const listContainer = document.getElementById('note-list-container');
@@ -460,9 +402,7 @@ function loadCategory(categoryId, event, specificIndex = null) {
         listContainer.appendChild(li);
     });
 
-    // Determine which note to open
     let indexToLoad = specificIndex;
-    
     if (indexToLoad === null) {
         indexToLoad = localStorage.getItem("currentNoteIndex-" + categoryId);
     }
@@ -472,7 +412,7 @@ function loadCategory(categoryId, event, specificIndex = null) {
         btnToClick = listContainer.querySelector(`button[data-index="${indexToLoad}"]`);
     }
     if (!btnToClick) {
-        btnToClick = listContainer.querySelector('button'); // default to first
+        btnToClick = listContainer.querySelector('button');
     }
 
     if (btnToClick) {
@@ -517,10 +457,8 @@ async function loadMarkdown(filePath, btnElement, categoryId, noteIndex) {
 }
 
 window.onload = () => {
-    // Translate dashboard initially
     translateHome();
     
-    // Load last state
     let lastCategory = localStorage.getItem("currentCategory") || "home";
     
     if (lastCategory === "home") {
@@ -531,6 +469,5 @@ window.onload = () => {
 };
 
 </script>
-
 </body>
 </html>
