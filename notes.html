@@ -164,19 +164,50 @@
         .update-text { font-size: 0.95rem; line-height: 1.4; }
 
         /* ===== MINIMAL FOOTER ===== */
-        .home-footer {
-            text-align: center;
-            padding: 15px 10px 10px 10px; /* Kept very tight */
-            margin-top: auto; /* Forces it to the absolute bottom */
-            border-top: 1px solid var(--border);
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            font-family: var(--font-mono);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
+.dynamic-home-footer {
+    padding: 20px 10px;
+    margin-top: 40px; /* Space between content and footer */
+    border-top: 1px solid var(--border);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg);
+}
+
+/* Ensure the dashboard stretches to push footer down */
+.home-dashboard {
+    display: none;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+/* HIDE footer logic for mobile and note views */
+.main-container:not(.home-active) .dynamic-home-footer {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    /* Fix for .md files not loading accurately on mobile */
+    .content {
+        padding: 20px;
+        height: auto; /* Allow content to dictate height */
+        overflow-y: visible; 
+    }
+    
+    .main-container {
+        display: block;
+        overflow-y: auto;
+        height: auto;
+    }
+
+    body {
+        height: auto; /* Fix for mobile scrolling issues */
+    }
 
         /* ===== Table & Markdown Styling ===== */
         .markdown-body table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95rem; table-layout: auto; }
@@ -273,13 +304,12 @@
 
             </div>
 
-            <div class="home-footer">
-                <div>&copy; Shih-Hsin Wang (王士欣) // Last Modified: <script>document.write(new Date(document.lastModified).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));</script></div>
-                
-                <div style="margin-top: 2px;">
-                    <img src="https://visitor-badge.laobi.icu/badge?page_id=shihhsinwang0214.notes&left_color=1a2b3c&right_color=c65d4a&left_text=Notes%20Visits" alt="Visitor Count">
-                </div>
-            </div>
+            <footer class="dynamic-home-footer">
+                    <div>&copy; Shih-Hsin Wang (王士欣) // Last Modified: <script>document.write(new Date(document.lastModified).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));</script></div>
+                    <div style="margin-top: 2px;">
+                        <img src="https://visitor-badge.laobi.icu/badge?page_id=shihhsinwang0214.notes&left_color=1a2b3c&right_color=c65d4a&left_text=Notes%20Visits" alt="Visitor Count">
+                    </div>
+            </footer>
         </div>
 
         <div id="markdown-content" class="markdown-body">Loading...</div>
