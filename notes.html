@@ -396,6 +396,13 @@ function loadHome() {
     localStorage.setItem("currentCategory", "home");
     translateHome();
     buildDynamicTree();
+
+    window.history.replaceState({}, '', window.location.pathname);
+    
+    document.getElementById('main-container').classList.add('home-active');
+    sessionStorage.setItem("currentCategory", "home");
+    translateHome();
+    buildDynamicTree();
 }
 
 function loadCategory(categoryId, event, specificIndex = null) {
@@ -443,9 +450,15 @@ async function loadMarkdown(filePath, btnElement, categoryId, noteIndex) {
     document.querySelectorAll('.note-list button').forEach(b => b.classList.remove('active-note'));
     if (btnElement) btnElement.classList.add('active-note');
 
+    // 1. Save state to session
     sessionStorage.setItem("currentCategory", categoryId);
     sessionStorage.setItem("currentNoteIndex-" + categoryId, noteIndex);
 
+    // 2. UPDATE URL MANIPULATION HERE
+    const newUrl = `${window.location.pathname}?cat=${categoryId}&id=${noteIndex}`;
+    window.history.replaceState({path: newUrl}, '', newUrl);
+
+    // 3. Continue with loading content
     const contentDiv = document.getElementById('markdown-content');
     contentDiv.innerHTML = "Loading...";
 
@@ -479,21 +492,26 @@ window.onload = () => {
     translateHome();
     buildDynamicTree();
 
-    // 1. Check if the URL has a "new session" flag
     const urlParams = new URLSearchParams(window.location.search);
+    const catParam = urlParams.get('cat'); // e.g., 'themes'
+    const idParam = urlParams.get('id');   // e.g., '0'
     const forceHome = urlParams.get('home') === 'true';
 
-    // 2. Use sessionStorage instead of localStorage
-    let lastCategory = sessionStorage.getItem("currentCategory") || "home";
-
-    // 3. If they come from your link with ?home=true, force the home page
-    if (forceHome || lastCategory === "home") {
+    // Priority: 1. Direct URL Param -> 2. Force Home -> 3. Session Memory
+    if (catParam && notesData[catParam]) {
+        const index = idParam !== null ? parseInt(idParam) : 0;
+        loadCategory(catParam, null, index);
+    } else if (forceHome) {
         loadHome();
     } else {
-        loadCategory(lastCategory);
+        let lastCategory = sessionStorage.getItem("currentCategory") || "home";
+        if (lastCategory === "home") {
+            loadHome();
+        } else {
+            loadCategory(lastCategory);
+        }
     }
 };
-
 </script>
 </body>
 </html>
