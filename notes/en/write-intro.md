@@ -22,7 +22,7 @@ How does it feel? Is it convincing?
 
 This paragraph only describes phenomena + vague improvement, without any verifiable claims.
 
-Now look at the version below:
+Now look at the version below (there is an even more optimized version at the bottom):
 
 > Reliable predictive performance in molecular modeling is essential for accelerating materials design and drug discovery, where experimental evaluation is costly and time-consuming. While Graph Neural Networks have become a pivotal tool for modeling molecular structures, existing approaches still struggle to capture geometric symmetry and maintain principled distinguishability, which limits their performance. For example, as illustrated in Fig. 1, current methods fail to distinguish between certain pairs of distinct 3D configurations of molecules.
 >
@@ -238,3 +238,19 @@ Make readers not only *believe it works*, but *see that it works*.
   2. What current methods lack
   3. What we propose
   4. Why it works
+
+---
+
+## 🚀 Advanced: Once You Master the Four Steps Above
+
+You will find that, although the previous examples are “acceptable,” there is still significant room for improvement in highly competitive top-tier conferences.
+
+- Replace vague and ambiguous descriptions with more precise technical terminology
+- Strengthen the tight coupling between theory and experiments: experiments should not merely serve to improve benchmark scores, but should instead validate the theoretical claims being made
+- The first sentence is optional
+
+>Reliable predictive performance in molecular modeling is essential for accelerating materials design and drug discovery, where the high-dimensional candidate space makes exhaustive experimental validation infeasible. Graph-based learning frameworks have emerged as a dominant paradigm for modeling molecular systems, due to their ability to naturally encode geometric interactions and their strong inductive bias toward local structures. However, achieving reliable predictive performance within this paradigm requires reconciling a fundamental tension between geometric invariance and representational expressivity. While enforcing symmetry constraints (e.g., $SE(3)$-invariance) is essential for physical consistency, existing architectures often achieve this by overly restricting the feature space, thereby degrading representational fidelity. In particular, such over-constrained designs fail to resolve subtle yet chemically meaningful geometric variations, including certain classes of isomeric configurations. As a consequence, these approaches are provably incapable of distinguishing non-equivalent 3D structures under standard message-passing schemes (see Fig. 1), revealing a fundamental limitation in their discriminative power. 
+>
+>To address this limitation, we propose [Method Name], a framework that resolves the symmetry–expressivity trade-off via Adaptive Local Canonicalization. Our key idea is to enforce equivariance by mapping local neighborhoods into uniquely defined canonical reference frames, effectively transforming a global symmetry constraint into a well-posed local alignment problem. From a theoretical perspective, we establish that our method achieves the expressivity upper bound of local geometric graph representations under the Geometric Weisfeiler–Lehman (GWL) framework. Empirically, our approach yields a 22% relative error reduction across standard benchmarks, while simultaneously reducing training time by 30%, demonstrating that enhanced geometric fidelity can be achieved without compromising computational efficiency.
+
+---
