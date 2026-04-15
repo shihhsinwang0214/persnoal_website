@@ -315,5 +315,5 @@ Flow Matching 的訓練可以理解為：
 
 這些問題會引導我們進一步理解：
 
-👉 stochastic interpolants (參考路徑的專業名稱)
+👉 stochastic interpolants (參考路徑的專業名稱)  
 👉 以及不同 path design 對 learned vector field 的影響
