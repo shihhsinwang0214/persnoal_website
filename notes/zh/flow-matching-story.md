@@ -125,7 +125,7 @@
 
 <iframe 
   src="/personal_website/notes/zh/flow_matching_story_sim.html"
-  style="width:100%; height:1200px; border:none; overflow:hidden;"
+  style="width:100%; height:1080px; border:none; overflow:hidden;"
   scrolling="no"
 ></iframe>
 
