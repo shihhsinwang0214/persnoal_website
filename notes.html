@@ -22,6 +22,8 @@
     <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
     
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/marked-katex-extension/lib/index.umd.js"></script>
 
     <style>
         :root {
@@ -576,23 +578,23 @@ async function loadMarkdown(filePath, btnElement, categoryId, noteIndex) {
     const contentDiv = document.getElementById('markdown-content');
     contentDiv.innerHTML = "Loading...";
 
-    try {
+try {
         const res = await fetch(filePath);
         if (!res.ok) throw new Error("File not found");
         const text = await res.text();
 
+        // 【新增這行】告訴 marked.js 啟用 KaTeX 擴充功能
+        marked.use(window.markedKatex({ throwOnError: false }));
+
+        // 解析 Markdown，此時公式已經被安全地渲染成完美的 HTML 了
         contentDiv.innerHTML = marked.parse(text);
 
-        renderMathInElement(contentDiv, {
-            delimiters: [
-                {left: "$$", right: "$$", display: true},
-                {left: "$", right: "$", display: false},
-                {left: "\\(", right: "\\)", display: false},
-                {left: "\\[", right: "\\]", display: true}
-            ]
-        });
+        // 【注意】您可以將原本的 renderMathInElement(...) 整段刪除！
 
         Prism.highlightAllUnder(contentDiv);
+
+    } catch {
+        // ... 下方的 fallback 邏輯維持不變
 
     } catch {
         // ==== 檔案找不到 (404) 的 Fallback 處理邏輯 ====
