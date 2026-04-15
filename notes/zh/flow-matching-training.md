@@ -317,3 +317,13 @@ Flow Matching 的訓練可以理解為：
 
 👉 stochastic interpolants (參考路徑的專業名稱)  
 👉 以及不同 path design 對 learned velocity field 的影響
+
+---
+
+## 參考文獻 (References)
+
+1. Lipman, Yaron, Ricky TQ Chen, Heli Ben-Hamu, Maximilian Nickel, and Matt Le. "Flow Matching for Generative Modeling." ICLR 2023.
+
+2. Liu, Xingchao, and Chengyue Gong. "Flow Straight and Fast: Learning to Generate and Transfer Data with Rectified Flow." ICLR 2023.
+
+3. Albergo, Michael Samuel, and Eric Vanden-Eijnden. "Building Normalizing Flows with Stochastic Interpolants." ICLR 2023.
