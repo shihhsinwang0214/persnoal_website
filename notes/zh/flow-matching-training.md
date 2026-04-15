@@ -1,5 +1,5 @@
 
-# 如何訓練 Flow Matching Models
+# 訓練 Flow Matching：一個「隨群體而動」的視角
 
 到目前為止，我們已經知道：
 
