@@ -1,6 +1,13 @@
 
 # 訓練 Flow Matching：一個「隨群體而動」的視角
 
+## 本章將會介紹
+Flow Matching 的目標函數如何定義？
+Flow Matching 如何設計 Loss Function 來逼近這個目標函數
+
+-- 
+## 引言
+
 到目前為止，我們已經知道：
 
 👉 Flow Matching 的目標，是學習一個「隨時間移動的速度場（velocity field）」，記作 $v(x,t)$，  
