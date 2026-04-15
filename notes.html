@@ -578,30 +578,29 @@ async function loadMarkdown(filePath, btnElement, categoryId, noteIndex) {
     const contentDiv = document.getElementById('markdown-content');
     contentDiv.innerHTML = "Loading...";
 
-try {
+    try {
         const res = await fetch(filePath);
         if (!res.ok) throw new Error("File not found");
         const text = await res.text();
 
-        // 【新增這行】告訴 marked.js 啟用 KaTeX 擴充功能
+        // 告訴 marked.js 啟用 KaTeX 擴充功能
         marked.use(window.markedKatex({ throwOnError: false }));
 
         // 解析 Markdown，此時公式已經被安全地渲染成完美的 HTML 了
         contentDiv.innerHTML = marked.parse(text);
 
-        // 【注意】您可以將原本的 renderMathInElement(...) 整段刪除！
-
         Prism.highlightAllUnder(contentDiv);
 
-    } catch {
-        // ... 下方的 fallback 邏輯維持不變
-
-    } catch {
+    } catch (error) {
         // ==== 檔案找不到 (404) 的 Fallback 處理邏輯 ====
         
         // 1. 決定 fallback 檔案路徑 (同資料夾下的 coming-soon.md)
-        const basePath = filePath.substring(0, filePath.lastIndexOf('/')); 
-        const comingSoonPath = `${basePath}/coming-soon.md`;
+        // Check if filePath is undefined to avoid errors
+        let comingSoonPath = "notes/coming-soon.md"; // Default safe path
+        if (filePath) {
+            const basePath = filePath.substring(0, filePath.lastIndexOf('/')); 
+            comingSoonPath = `${basePath}/coming-soon.md`;
+        }
 
         // 2. 更新資料結構中的標題，加上 Coming Soon 標籤
         const noteData = notesData[categoryId][noteIndex];
@@ -623,14 +622,6 @@ try {
             const text = await fallbackRes.text();
             contentDiv.innerHTML = marked.parse(text);
             
-            renderMathInElement(contentDiv, {
-                delimiters: [
-                    {left: "$$", right: "$$", display: true},
-                    {left: "$", right: "$", display: false},
-                    {left: "\\(", right: "\\)", display: false},
-                    {left: "\\[", right: "\\]", display: true}
-                ]
-            });
             Prism.highlightAllUnder(contentDiv);
         } catch (fallbackErr) {
             // 如果連 coming-soon.md 都不存在，顯示預設的 HTML 提示
