@@ -325,15 +325,40 @@ let currentLang = localStorage.getItem("lang") || "en";
 // 1. ADD YOUR NOTES HERE
 // ==========================================
 // The Knowledge Tree automatically builds itself from this list!
+
 const notesData = {
     "themes": [
+        // --- Geometric Deep Learning ---
         {
+            group: { en: "Geometric Deep Learning", zh: "幾何深度學習" },
+            title: { en: "GNNs", zh: "GNNs 筆記" },
+            file: { en: "notes/en/gnns.md", zh: "notes/zh/gnns.md" }
+        },
+        {
+            group: { en: "Geometric Deep Learning", zh: "幾何深度學習" },
+            title: { en: "Equivariance & Invariance", zh: "等變性與不變性" },
+            file: { en: "notes/en/equivariance.md", zh: "notes/zh/equivariance.md" }
+        },
+        // --- Generative Models ---
+        {
+            group: { en: "Generative Models", zh: "生成模型" },
             title: { en: "Flow Matching", zh: "Flow Matching 筆記" },
-            file: { en: "notes/en/coming-soon.md", zh: "notes/zh/coming-soon.md" }
+            file: { en: "notes/en/flow-matching.md", zh: "notes/zh/flow-matching.md" }
+        },
+        {
+            group: { en: "Generative Models", zh: "生成模型" },
+            title: { en: "Diffusion", zh: "Diffusion 筆記" },
+            file: { en: "notes/en/diffusion.md", zh: "notes/zh/diffusion.md" }
+        },
+        {
+            group: { en: "Generative Models", zh: "生成模型" },
+            title: { en: "Test-time Guidance", zh: "Test-time Guidance" },
+            file: { en: "notes/en/test-time-guidance.md", zh: "notes/zh/test-time-guidance.md" }
         }
     ],
     "skills": [
         {
+            // Skills 沒有特別設定 group，就會維持原本的單層樣式
             title: { en: "How to Write a Compelling Introduction", zh: "如何寫一個有說服力的 Introduction" },
             file: { en: "notes/en/write-intro.md", zh: "notes/zh/write-intro.md" }
         }
@@ -367,25 +392,32 @@ function buildDynamicTree() {
     const treeContainer = document.getElementById('dynamic-tree');
     treeContainer.innerHTML = ''; 
 
-    // Build Themes Branch
-    let themesHTML = `<div class="tree-branch">
-        <div class="tree-category" onclick="loadCategory('themes')">${categoryTitles['themes'][currentLang]}</div>
-        <div class="tree-leaves">`;
-    notesData['themes'].forEach((note, index) => {
-        themesHTML += `<div class="tree-leaf-item"><span class="tree-leaf" onclick="loadCategory('themes', event, ${index})">${note.title[currentLang]}</span></div>`;
-    });
-    themesHTML += `</div></div>`;
+    // 透過迴圈自動建立所有主分類 (themes, skills)
+    for (const categoryId in notesData) {
+        let html = `<div class="tree-branch">
+            <div class="tree-category" onclick="loadCategory('${categoryId}')">${categoryTitles[categoryId][currentLang]}</div>
+            <div class="tree-leaves">`;
 
-    // Build Skills Branch
-    let skillsHTML = `<div class="tree-branch">
-        <div class="tree-category" onclick="loadCategory('skills')">${categoryTitles['skills'][currentLang]}</div>
-        <div class="tree-leaves">`;
-    notesData['skills'].forEach((note, index) => {
-        skillsHTML += `<div class="tree-leaf-item"><span class="tree-leaf" onclick="loadCategory('skills', event, ${index})">${note.title[currentLang]}</span></div>`;
-    });
-    skillsHTML += `</div></div>`;
+        let currentGroup = null;
+        
+        notesData[categoryId].forEach((note, index) => {
+            // 如果這篇筆記有 group 且與上一個不同，就插入一個子分類標題
+            if (note.group && note.group[currentLang] !== currentGroup) {
+                currentGroup = note.group[currentLang];
+                html += `<div style="font-size: 0.9rem; font-weight: 700; color: var(--text); margin: 15px 0 5px 0px; border-bottom: 1px dashed var(--border); padding-bottom: 4px;">📂 ${currentGroup}</div>`;
+            }
 
-    treeContainer.innerHTML = themesHTML + skillsHTML;
+            // 如果在群組底下，稍微往右縮進一點會更好看
+            const indentStyle = note.group ? 'margin-left: 15px;' : '';
+
+            html += `<div class="tree-leaf-item" style="${indentStyle}">
+                        <span class="tree-leaf" onclick="loadCategory('${categoryId}', event, ${index})">${note.title[currentLang]}</span>
+                     </div>`;
+        });
+
+        html += `</div></div>`;
+        treeContainer.innerHTML += html;
+    }
 }
 
 function setLanguage(lang) {
@@ -445,9 +477,25 @@ function loadCategory(categoryId, event, specificIndex = null) {
     const listContainer = document.getElementById('note-list-container');
     listContainer.innerHTML = '';
 
+    let currentGroup = null;
+
     notesData[categoryId].forEach((note, index) => {
+        // 在側邊欄插入子分類標籤
+        if (note.group && note.group[currentLang] !== currentGroup) {
+            currentGroup = note.group[currentLang];
+            const groupHeader = document.createElement('div');
+            groupHeader.style.cssText = "font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin: 25px 0 8px 5px; text-transform: uppercase; letter-spacing: 0.5px;";
+            groupHeader.innerText = currentGroup;
+            listContainer.appendChild(groupHeader);
+        }
+
         const li = document.createElement('li');
         const btn = document.createElement('button');
+
+        // 子分類下的按鈕加上微小的左邊距
+        if (note.group) {
+            btn.style.paddingLeft = "15px";
+        }
 
         btn.innerText = note.title[currentLang];
         btn.setAttribute("data-file", note.file[currentLang]); 
