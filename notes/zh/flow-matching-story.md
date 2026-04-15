@@ -1,4 +1,26 @@
-# Flow ODE：從隨機沙堆到精緻沙堡
+# 從沙堆到沙堡：理解 Flow Matching 背後的 Flow ODE
+
+## 本章將會介紹
+
+* **Flow Matching 的直覺理解**：從「隨機沙堆」到「精緻沙堡」
+* **Flow Matching 背後的數學模型**：Flow ODE（一個連續時間微分方程）
+
+---
+
+## 引言 //：Flow Matching 的本質
+
+在這個充斥著各種 AI 工具的時代，我們早已習慣輕輕點擊，就能看見栩栩如生的圖像憑空出現 。但剝開這層「魔法」的外衣，身為科學研究者的我們必須問一個更本質的問題：
+
+ **讓一個數學模型「創造」出有結構的真實數據，究竟是如何做到的？**
+
+在接下來的內容中，我們將探討一種強大且直觀的生成模型框架：**Flow Matching**。
+
+為了幫助大家跨越抽象理論的門檻，我們不從冰冷的公式出發，而是先進行一場思想實驗 。我們將使用一個核心比喻：
+
+👉 **從「隨機沙堆」到「精緻沙堡」** 
+
+這不僅是一個生動的比喻，更對應了 Flow Matching 背後的數學設計哲學。最終，我們將回到核心：如何用嚴謹的數學語言，精確描述並控制這個連續的生成過程。
+
 
 ## 什麼是「生成」？
 
@@ -241,4 +263,11 @@ $$
 
 這會在下一篇揭曉！
 
+---
+
+## 參考文獻 (References)
+
+1. Lipman, Yaron, Ricky TQ Chen, Heli Ben-Hamu, Maximilian Nickel, and Matt Le. "Flow Matching for Generative Modeling." ICLR 2023.
+
+2. Liu, Xingchao, and Chengyue Gong. "Flow Straight and Fast: Learning to Generate and Transfer Data with Rectified Flow." ICLR 2023.
 
