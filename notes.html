@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <title>Shih-Hsin Wang — Notes & Guides</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,7 +58,30 @@
             align-items: center;
         }
 
-        .back-btn { color: var(--text-muted); text-decoration: none; font-weight: 600; }
+        /* 新增 header-left 的排版 */
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px; 
+        }
+        
+        /* 美化 Main Website 按鈕，讓它看起來像個次要連結 */
+        .back-btn { 
+            color: var(--text-muted); 
+            text-decoration: none; 
+            font-size: 0.85rem; 
+            font-weight: 600; 
+            padding: 6px 12px;
+            border-radius: 6px;
+            background-color: var(--box-math-bg);
+            transition: all 0.2s ease;
+        }
+        
+        .back-btn:hover { 
+            color: var(--accent);
+            background-color: var(--box-ml-bg);
+            transform: translateY(-1px);
+        }
         .category-nav { display: flex; gap: 20px; align-items: center; }
         
         .cat-btn {
@@ -248,9 +276,12 @@
 <body>
 
 <header>
-    <a href="index.html" class="back-btn">← Main Website</a>
+    <div class="header-left">
+        <button class="cat-btn" id="btn-home" onclick="loadHome()">🏠 Home</button>
+        <a href="index.html" class="back-btn">Main Website</a>
+    </div>
+    
     <div class="category-nav">
-        <button class="cat-btn" id="btn-home" onclick="loadHome()">Home</button>
         <button class="cat-btn" id="btn-themes" onclick="loadCategory('themes', event)">Research Areas</button>
         <button class="cat-btn" id="btn-skills" onclick="loadCategory('skills', event)">Academic Skills</button>
 
