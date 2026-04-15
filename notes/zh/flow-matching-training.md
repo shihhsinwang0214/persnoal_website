@@ -1,5 +1,5 @@
 
-# 如何訓練 Flow Matching
+# 如何訓練 Flow Matching Models
 
 到目前為止，我們已經知道：
 
