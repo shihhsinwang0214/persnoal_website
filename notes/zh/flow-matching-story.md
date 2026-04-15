@@ -95,4 +95,4 @@
 👉 在任何一個時間點，都知道每一粒沙子應該往哪個方向移動。
 
 
-<iframe src="https://shihhsinwang0214.github.io/persnoal_website/notes/zh/flow_matching_story_sim.html" width="100%" height="750px" frameborder="0" scrolling="no"></iframe>
+<iframe src="https://shihhsinwang0214.github.io/personal_website/notes/zh/flow_matching_story_sim.html" width="100%" height="750px" frameborder="0" scrolling="no"></iframe>
