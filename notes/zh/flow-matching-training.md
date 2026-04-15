@@ -1,9 +1,9 @@
 
-# How to Train Flow Matching Models
+# 如何訓練 Flow Matching
 
 到目前為止，我們已經知道：
 
-👉 Flow Matching 的目標，是學習一個「隨時間移動的向量場（vector field）」，記作 $v(x,t)$，  
+👉 Flow Matching 的目標，是學習一個「隨時間移動的速度場（velocity field）」，記作 $v(x,t)$，  
 隨著它決定的方向，我們能夠讓噪聲逐步被搬運成真實數據的位置。
 
 但問題是：
@@ -136,11 +136,11 @@ $$
 
 ---
 
-## 目標向量場：
+## 目標速度場：
 
 Flow Matching 的核心就是：
 
-👉 定一個向量場 $v(x, t)$ 去代表這個「條件下的平均速度」
+👉 定一個速度場 $v(x, t)$ 去代表這個「條件下的平均速度」
 
 👉 然後用神經網路 $v_\theta(x, t)$ 去逼近它 
 
@@ -165,7 +165,7 @@ $$
 
 ---
 
-## 如何學這個 vector field？
+## 如何學這個 velocity field？
 
 由於 $v(x,t)$ 本質上是條件期望：
 
@@ -198,7 +198,7 @@ $$
 
 ---
 
-### 💡 數學補充：為什麼 L2 loss 會給出 optimal vector field？
+### 💡 數學補充：為什麼 L2 loss 會給出 optimal velocity field？
 
 我們想學的是：
 
@@ -316,4 +316,4 @@ Flow Matching 的訓練可以理解為：
 這些問題會引導我們進一步理解：
 
 👉 stochastic interpolants (參考路徑的專業名稱)  
-👉 以及不同 path design 對 learned vector field 的影響
+👉 以及不同 path design 對 learned velocity field 的影響
