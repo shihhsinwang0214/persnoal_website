@@ -135,7 +135,7 @@
 
 如果我們把每一顆沙子的位置寫成：
 
-👉 x(t)
+👉 $x(t)$
 
 那麼我們就不再只是描述「路徑」，而是在描述：
 
@@ -147,13 +147,11 @@
 
 這個移動方向，我們稱為：
 
-👉 velocity field（速度場） v(x, t)
+👉 velocity field（速度場） $v(x, t)$
 
 於是整個生成過程可以寫成：
 
-\[
-\frac{dx}{dt} = v(x, t)
-\]
+$\frac{dx}{dt} = v(x, t)$
 
 這就是 Flow ODE 的核心形式，也是 Flow Matching 背後的數學模型。
 
