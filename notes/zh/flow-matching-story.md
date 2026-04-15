@@ -175,11 +175,11 @@ $$
 因此，我們可以用一個微分方程來描述整個過程：
 
 $$
-\frac{dx}{dt} = v(x, t)
+\frac{dx}{dt} = v(x(t), t)
 $$
 
 👉 這個方程的意思是：  
-在位置 $x$、時間 $t$，點會依照 $v(x,t)$ 指定的方向移動。
+在時間 $t$、軌跡走到位置 $x(t)$，點會依照 $v(x(t),t)$ 指定的方向移動。
 
 這就是 **Flow ODE** ，也是 Flow Matching 背後的數學模型。
 
@@ -197,7 +197,7 @@ $$
 並讓它依照 Flow ODE 演化：
 
 $$
-\frac{dx}{dt} = v(x, t), \quad t \in [0,1]
+\frac{dx}{dt} = v(x(t), t), \quad t \in [0,1]
 $$
 
 那麼在 $t = 1$ 時，我們就會得到生成的樣本：
@@ -212,7 +212,7 @@ $$
 
 
 <iframe 
-  src="/personal_website/notes/zh/flow_matching_story_sim.html"
+  src="/personal_website/notes/zh/flow_matching_story_velocity.html"
   style="width:100%; height:1080px; border:none; overflow:hidden;"
   scrolling="no"
 ></iframe>
