@@ -559,10 +559,50 @@ async function loadMarkdown(filePath, btnElement, categoryId, noteIndex) {
         Prism.highlightAllUnder(contentDiv);
 
     } catch {
-        contentDiv.innerHTML = `
-            <h1>File not found</h1>
-            <p>Could not load <code>${filePath}</code>.</p>
-        `;
+        // ==== 檔案找不到 (404) 的 Fallback 處理邏輯 ====
+        
+        // 1. 決定 fallback 檔案路徑 (同資料夾下的 coming-soon.md)
+        const basePath = filePath.substring(0, filePath.lastIndexOf('/')); 
+        const comingSoonPath = `${basePath}/coming-soon.md`;
+
+        // 2. 更新資料結構中的標題，加上 Coming Soon 標籤
+        const noteData = notesData[categoryId][noteIndex];
+        const suffixEN = " (Coming Soon!)";
+        const suffixZH = " (即將推出!)"; 
+
+        // 避免重複加上標籤
+        if (!noteData.title.en.includes("Coming Soon")) noteData.title.en += suffixEN;
+        if (!noteData.title.zh.includes("即將推出")) noteData.title.zh += suffixZH;
+
+        // 3. 即時更新畫面標籤
+        if (btnElement) btnElement.innerText = noteData.title[currentLang]; // 更新左側邊欄按鈕
+        buildDynamicTree(); // 重新渲染首頁樹狀圖，讓那邊的標籤也同步更新
+
+        // 4. 嘗試讀取 coming-soon.md
+        try {
+            const fallbackRes = await fetch(comingSoonPath);
+            if (!fallbackRes.ok) throw new Error("Fallback file not found");
+            const text = await fallbackRes.text();
+            contentDiv.innerHTML = marked.parse(text);
+            
+            renderMathInElement(contentDiv, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\(", right: "\\)", display: false},
+                    {left: "\\[", right: "\\]", display: true}
+                ]
+            });
+            Prism.highlightAllUnder(contentDiv);
+        } catch (fallbackErr) {
+            // 如果連 coming-soon.md 都不存在，顯示預設的 HTML 提示
+            contentDiv.innerHTML = `
+                <div style="text-align: center; margin-top: 50px;">
+                    <h1 style="border: none;">🚧 ${currentLang === 'zh' ? '即將推出' : 'Coming Soon'}</h1>
+                    <p style="color: var(--text-muted);">${currentLang === 'zh' ? '這篇筆記還在整理中，敬請期待。' : 'This note is currently being prepared. Check back later!'}</p>
+                </div>
+            `;
+        }
     }
 }
 
