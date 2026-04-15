@@ -58,37 +58,30 @@
             align-items: center;
         }
 
-        /* 新增 header-left 的排版 */
         .header-left {
             display: flex;
             align-items: center;
-            gap: 15px; 
+            gap: 20px; 
         }
         
-        /* 美化 Main Website 按鈕，讓它看起來像個次要連結 */
-        .back-btn { 
-            color: var(--text-muted); 
-            text-decoration: none; 
-            font-size: 0.85rem; 
-            font-weight: 600; 
-            padding: 6px 12px;
-            border-radius: 6px;
-            background-color: var(--box-math-bg);
-            transition: all 0.2s ease;
-        }
-        
-        .back-btn:hover { 
-            color: var(--accent);
-            background-color: var(--box-ml-bg);
-            transform: translateY(-1px);
-        }
-        .category-nav { display: flex; gap: 20px; align-items: center; }
-        
+        /* 更新原本的 cat-btn 讓它支援 a 標籤 */
         .cat-btn {
             background: none; border: none; font-size: 1rem; font-weight: 600;
             color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent;
+            text-decoration: none; /* 確保連結沒有底線 */
+            padding-bottom: 2px; /* 微調底線距離 */
         }
-        .cat-btn.active-cat { color: var(--accent); border-bottom: 2px solid var(--accent); }
+        
+        .cat-btn:hover {
+            color: var(--accent);
+        }
+        
+        .cat-btn.active-cat { 
+            color: var(--accent); border-bottom: 2px solid var(--accent); 
+        }
+        
+        .category-nav { display: flex; gap: 20px; align-items: center; }
+    
 
         .lang-switch button {
             border: 1px solid var(--border); background: none; padding: 5px 10px;
@@ -277,7 +270,7 @@
 
 <header>
     <div class="header-left">
-        <button class="cat-btn" id="btn-home" onclick="loadHome()">🏠 Home</button>
+        <button class="cat-btn" id="btn-home" onclick="loadHome()">Home</button>
         <a href="index.html" class="back-btn">Main Website</a>
     </div>
     
