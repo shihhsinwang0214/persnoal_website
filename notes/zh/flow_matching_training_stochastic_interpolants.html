@@ -325,6 +325,10 @@
     
     reshuffleBtn.addEventListener('click', () => {
         createRandomPairing();
+        // 重設時間並暫停動畫
+        playDirection = 0;
+        timeSlider.value = 0;
+        timeDisplay.innerText = "0.00";
         draw();
     });
 
