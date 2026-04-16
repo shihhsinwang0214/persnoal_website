@@ -24,7 +24,7 @@
         }
         canvas {
             background-color: #111; border-radius: 8px; margin-top: 15px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
         }
         .controls { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; align-items: center; width: 100%; }
         .control-row { display: flex; align-items: center; gap: 15px; justify-content: center; flex-wrap: wrap; }
@@ -40,16 +40,17 @@
             font-family: monospace; font-size: 14px; width: 90%;
         }
         .dashboard div { background: white; padding: 8px; border-radius: 4px; border: 1px solid #ccc; }
-        .highlight { color: #28a745; font-weight: bold; }
+        .highlight { color: #00ffcc; font-weight: bold; background: #222; padding: 2px 6px; border-radius: 4px; }
+        .neon-red { color: #ff6666; font-weight: bold; background: #222; padding: 2px 6px; border-radius: 4px; text-shadow: 0 0 5px #ff3333; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h2>Flow ODE 軌跡與速度場 $v(x,t)$ 視覺化</h2>
-    <p> <span class="highlight">綠色粒子 $x(t)$</span> 代表一個沙子在 $t$ 時刻的位置。<br> 
-     <span style="color: #ff0055; font-weight: bold;">紅色箭頭</span> 代表其軌跡在 $t$ 時刻的瞬時速度 $v(x(t),t)$。<br> 
-    箭頭採用了對數縮放 (Log Scale)，確保在極小或極大速度下皆清晰可見。</p>
+    <p> <span class="highlight">螢光青色軌跡</span> 代表神經網路學習到的 Flow ODE 平滑路徑。<br> 
+     <span class="neon-red">紅色霓虹箭頭</span> 代表其軌跡在 $t$ 時刻的瞬時速度 $v(x(t),t)$。<br> 
+    (背景暗沉的粒子群則是 Source 與 Target 的分佈機率，用以提供軌跡引力)</p>
     
     <canvas id="simCanvas" width="600" height="600"></canvas>
 
@@ -99,8 +100,8 @@
     const scale = 100; 
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
-    const fixedDt = 0.015; // 稍微調小一點讓平滑度更好
-    const amplitude = 0.3; // 縮小正弦波擾動幅度
+    const fixedDt = 0.015;
+    const amplitude = 0.3; 
 
     function randn() {
         let u = 0, v = 0;
@@ -164,15 +165,13 @@
         timeDisplay.innerText = t.toFixed(2);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // 顏色過渡
-        const r_col = Math.floor((1 - t) * 70 + t * 255);
-        const g_col = Math.floor((1 - t) * 150 + t * 120);
-        const b_col = Math.floor((1 - t) * 255 + t * 50);
-        const alpha = 0.5 + t * 0.3;
+        // --- 視覺優化：把背景的分佈顏色壓暗、降低透明度 ---
+        const r_col = Math.floor((1 - t) * 40 + t * 180);
+        const g_col = Math.floor((1 - t) * 100 + t * 80);
+        const b_col = Math.floor((1 - t) * 180 + t * 40);
+        const alpha = 0.2;
 
-        // 計算 Degree-3 時間映射: f(t) = 3t^2 - 2t^3
         const s = 3 * t * t - 2 * t * t * t;
-        // 對 t 的導數: f'(t) = 6t - 6t^2 = 6t(1-t)
         const ds_dt = 6 * t * (1 - t);
 
         particles.forEach((p, index) => {
@@ -183,20 +182,21 @@
             const perpY = dx;
             const arcFactor = amplitude * Math.sin(Math.PI * t); 
             
-            // 使用轉換後的時間 s 計算位置
             const currentX = (1 - s) * p.x0 + s * p.x1 + perpX * arcFactor;
             const currentY = (1 - s) * p.y0 + s * p.y1 + perpY * arcFactor;
             
             const drawX = centerX + currentX * scale;
             const drawY = centerY + currentY * scale;
 
-            // 追蹤第一顆粒子
             if (index === 0) {
-                // --- 繪製完整軌跡線 ---
+                // --- 繪製完整軌跡線 (高亮螢光青色) ---
                 ctx.beginPath();
-                ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
-                ctx.lineWidth = 2;
-                ctx.setLineDash([5, 5]); 
+                ctx.strokeStyle = '#00ffcc';
+                ctx.lineWidth = 3.5;
+                ctx.shadowBlur = 4;
+                ctx.shadowColor = '#00ffcc';
+                ctx.setLineDash([]); 
+                
                 for(let step = 0; step <= 1.0; step += 0.02) {
                     const step_s = 3 * step * step - 2 * step * step * step;
                     const sArc = amplitude * Math.sin(Math.PI * step);
@@ -206,9 +206,9 @@
                     else ctx.lineTo(pathX, pathY);
                 }
                 ctx.stroke();
-                ctx.setLineDash([]); 
+                ctx.shadowBlur = 0; 
 
-                // --- 速度計算 (考慮到 s 對 t 的導數) ---
+                // --- 速度計算 ---
                 const vx = ds_dt * dx + perpX * amplitude * Math.PI * Math.cos(Math.PI * t);
                 const vy = ds_dt * dy + perpY * amplitude * Math.PI * Math.cos(Math.PI * t);
                 
@@ -217,23 +217,51 @@
                 valXt.innerText = `${currentX.toFixed(2)}, ${currentY.toFixed(2)}`;
                 valVt.innerText = `${vx.toFixed(2)}, ${vy.toFixed(2)}`;
 
-                ctx.fillStyle = '#28a745';
+                // --- 繪製移動中的粒子 (高亮白色) ---
+                ctx.fillStyle = '#ffffff';
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = '#ffffff';
                 ctx.beginPath();
                 ctx.arc(drawX, drawY, 6, 0, Math.PI * 2);
                 ctx.fill();
+                ctx.shadowBlur = 0;
                 
-                // --- 對數縮放 (Logarithmic Scaling) 處理箭頭長度 ---
+                // --- 畫出速度霓虹箭頭與發光文字標籤 ---
                 const mag = Math.hypot(vx, vy);
                 if (mag > 0.001) {
-                    // 利用 log(1 + c*x) 來壓縮極端大的速度，並保證小速度的可視性
-                    // 這裡的參數 (2.0 和 15) 可以依照視覺偏好微調
                     const visualScale = Math.log1p(mag * 2.0) * 15; 
                     const drawVx = (vx / mag) * visualScale;
                     const drawVy = (vy / mag) * visualScale;
-                    drawArrow(ctx, drawX, drawY, drawX + drawVx, drawY + drawVy);
+                    const endX = drawX + drawVx;
+                    const endY = drawY + drawVy;
+                    
+                    // 1. 給箭頭本體加上紅色光暈
+                    ctx.shadowColor = '#ff3333';
+                    ctx.shadowBlur = 12;
+                    drawArrow(ctx, drawX, drawY, endX, endY);
+                    ctx.shadowBlur = 0;
+
+                    // 2. 畫上帶有霓虹光暈的 v(x(t), t) 文字
+                    ctx.fillStyle = '#ffb3b3'; // 字體稍微偏白/粉，讓發光的中心看起來更亮
+                    ctx.font = 'bold 16px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+                    
+                    const textOffsetX = (vx / mag) * 18; // 稍微往外推遠一點
+                    const textOffsetY = (vy / mag) * 18;
+                    
+                    ctx.shadowColor = '#ff0000'; // 強烈的鮮紅色光暈
+                    ctx.shadowBlur = 15;
+                    
+                    // 畫兩次讓發光的中心更扎實（Canvas 霓虹燈常用技巧）
+                    ctx.fillText('v(x(t), t)', endX + textOffsetX, endY + textOffsetY);
+                    ctx.fillText('v(x(t), t)', endX + textOffsetX, endY + textOffsetY);
+                    
+                    ctx.shadowBlur = 0; // 畫完文字後重置陰影
                 }
 
             } else {
+                // --- 繪製背景暗沉分佈 ---
                 ctx.fillStyle = `rgba(${r_col}, ${g_col}, ${b_col}, ${alpha})`;
                 ctx.beginPath();
                 ctx.arc(drawX, drawY, 2, 0, Math.PI * 2);
@@ -261,7 +289,13 @@
     document.getElementById('btnBackward').addEventListener('click', () => { direction = -1; });
     document.getElementById('btnPause').addEventListener('click', () => { direction = 0; });
     timeSlider.addEventListener('input', () => { direction = 0; draw(); });
-    shapeSelect.addEventListener('change', initParticles);
+    
+    shapeSelect.addEventListener('change', () => {
+        direction = 0;           
+        timeSlider.value = 0;    
+        timeDisplay.innerText = "0.00";
+        initParticles();         
+    });
 
     initParticles();
     loop(); 
