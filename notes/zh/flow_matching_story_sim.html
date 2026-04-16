@@ -241,7 +241,14 @@
     btnPause.addEventListener('click', () => { direction = 0; });
     stepSlider.addEventListener('input', () => { stepDisplay.innerText = stepSlider.value; });
     timeSlider.addEventListener('input', () => { direction = 0; draw(); });
-    shapeSelect.addEventListener('change', initParticles);
+    
+    // ✅ 修改這裡：當形狀改變時，暫停動畫並將時間歸零
+    shapeSelect.addEventListener('change', () => {
+        direction = 0;           // 停止播放
+        timeSlider.value = 0;    // 時間軸歸零
+        timeDisplay.innerText = "0.00"; // 更新時間文字
+        initParticles();         // 重新生成粒子
+    });
 
     initParticles();
     loop(); 
