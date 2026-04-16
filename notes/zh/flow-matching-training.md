@@ -230,6 +230,13 @@ $$
 v(x, t) = \mathbb{E}_{X_0, X_1}[X_1-X_0 \mid X_t = x]
 $$
 
+--- 
+👇 動手探索：
+
+點擊「🎲 隨機抽取起點」或者直接在畫布中「自由拖曳起點」來模擬迷茫不知道方向的人，觀察用 1000 步 Euler Discretization 算出的平滑曲線！
+
+<iframe src="/personal_website/notes/zh/flow_matching_training_stochastic_interpolants.html" style="width:100%; height:1080px; border:none; overflow:hidden;" scrolling="no" ></iframe>
+
 ---
 
 ## 如何學這個 velocity field？
