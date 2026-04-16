@@ -14,7 +14,7 @@
 👉 Flow Matching 的目標，是學習一個「隨時間移動的速度場（velocity field）」，記作 $v(x,t)$，  
 隨著它決定的方向，我們能夠讓噪聲逐步被搬運成真實數據的位置。
 
-具體來說，是透過上一篇講的 Flow ODE $\frac{dx}{dt} = v(x,t)$。
+具體來說，是透過上一篇講的 Flow ODE: $\frac{dx}{dt} = v(x,t)$。
 
 但問題是：
 
