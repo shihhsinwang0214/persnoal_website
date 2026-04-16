@@ -1,3 +1,25 @@
+<style>
+/* 1. 修正手機端數學公式超出版面 (支援 MathJax 與 KaTeX) */
+.MathJax_Display, .katex-display, mjx-container, .math-display, .math {
+    max-width: 100%;
+    overflow-x: auto !important;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch; /* 讓 iOS 上的滑動更順暢 */
+    padding-bottom: 5px; /* 避免卷軸遮擋公式底部 */
+}
+
+/* 2. 確保互動式 Demo 不會撐破手機版面，允許局部水平滑動 */
+.demo-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 20px 0;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+</style>
+
 # 從沙堆到沙堡：理解 Flow Matching 背後的 Flow ODE
 
 ## 本章將會介紹
@@ -17,9 +39,7 @@
 
 為了幫助大家跨越抽象理論的門檻，我們不從冰冷的公式出發，而是先進行一場思想實驗 。我們將使用一個核心比喻：
 
-👉 **從「隨機沙堆」到「精緻沙堡」** 
-
-這不僅是一個生動的比喻，更對應了 Flow Matching 背後的數學設計哲學。最終，我們將回到核心：如何用嚴謹的數學語言，精確描述並控制這個連續的生成過程。
+👉 **從「隨機沙堆」到「精緻沙堡」** 這不僅是一個生動的比喻，更對應了 Flow Matching 背後的數學設計哲學。最終，我們將回到核心：如何用嚴謹的數學語言，精確描述並控制這個連續的生成過程。
 
 
 ## 什麼是「生成」？
@@ -135,9 +155,9 @@ $$
 
 也就是說：
 
-- 在 t = 0 時，是混亂的沙堆  
-- 在 0 < t < 1 的每一刻，沙子都在移動  
-- 在 t = 1 時，變成完整的沙堡  
+- 在 $t = 0$ 時，是混亂的沙堆  
+- 在 $0 < t < 1$ 的每一刻，沙子都在移動  
+- 在 $t = 1$ 時，變成完整的沙堡  
 
 👉 換句話說，這條「軌跡」其實是一個隨時間演化的過程。
 
@@ -147,12 +167,13 @@ $$
 
 👇 動手探索：請拖曳下方的時間軸，親眼觀察 $x(t)$，觀察這些代表噪聲的「沙堆」，是如何一步步被搬運並聚集成有結構的「沙堡」！
 
-
+<div class="demo-wrapper">
 <iframe 
   src="/personal_website/notes/zh/flow_matching_story_sim.html"
-  style="width:100%; height:1080px; border:none; overflow:hidden;"
+  style="width:100%; min-width: 800px; height:1080px; border:none; overflow:hidden;"
   scrolling="no"
 ></iframe>
+</div>
 
 ---
 
@@ -179,7 +200,7 @@ $$
 $$
 
 👉 這個方程的意思是：  
-在時間 $t$、軌跡走到位置 $x(t)$，點會依照 $v(x(t),t)$ 指定的方向移動。
+在時間 $t$ 、軌跡走到位置 $x(t)$ ，點會依照 $v(x(t),t)$ 指定的方向移動。
 
 這就是 **Flow ODE** ，也是 Flow Matching 背後的數學模型。
 
@@ -210,13 +231,13 @@ $$
 👉 沿著 velocity field $v(x,t)$ 持續累積「位移」，  
 👉 最終得到生成的樣本 $x(1)$。
 
-
+<div class="demo-wrapper">
 <iframe 
   src="/personal_website/notes/zh/flow_matching_story_velocity.html"
-  style="width:100%; height:1200px; border:none; overflow:hidden;"
+  style="width:100%; min-width: 800px; height:1200px; border:none; overflow:hidden;"
   scrolling="no"
 ></iframe>
-
+</div>
 
 ---
 
@@ -249,11 +270,13 @@ $$
 
 這種「用離散步驟去近似連續時間演化」的方法，本質上會產生誤差，通常被稱為：**truncation error**.
 
+<div class="demo-wrapper">
 <iframe 
   src="/personal_website/notes/zh/flow_matching_story_truncation_error.html"
-  style="width:100%; height:840px; border:none; overflow:hidden;"
+  style="width:100%; min-width: 800px; height:840px; border:none; overflow:hidden;"
   scrolling="no"
 ></iframe>
+</div>
 
 ---
 
@@ -293,7 +316,7 @@ $$
 
 👉 接下來的關鍵問題是：
 
-**這個 v(x, t) 要怎麼決定？是怎麼學出來的？**
+**這個 $v(x, t)$ 要怎麼決定？是怎麼學出來的？**
 
 這會在下一篇揭曉！
 
@@ -304,4 +327,3 @@ $$
 1. Lipman, Yaron, Ricky TQ Chen, Heli Ben-Hamu, Maximilian Nickel, and Matt Le. "Flow Matching for Generative Modeling." ICLR 2023.
 
 2. Liu, Xingchao, and Chengyue Gong. "Flow Straight and Fast: Learning to Generate and Transfer Data with Rectified Flow." ICLR 2023.
-
