@@ -77,6 +77,10 @@
         }
         button:hover { background-color: #004494; }
         
+        /* 暫停按鈕的特殊樣式 */
+        button.btn-stop { background-color: #dc3545; }
+        button.btn-stop:hover { background-color: #a71d2a; }
+        
         input[type="range"] { cursor: pointer; }
         input[type="checkbox"] {
             width: 18px;
@@ -106,6 +110,12 @@
         </div>
 
         <div class="control-row">
+            <button id="btnForward">▶ 播放</button>
+            <button id="btnPause" class="btn-stop">⏸ 暫停</button>
+            <button id="btnBackward">◀ 反向</button>
+        </div>
+
+        <div class="control-row">
             <span class="label-text">搬運進度 $t$:</span>
             <input type="range" id="timeSlider" min="0" max="1" step="0.001" value="0">
             <span id="timeDisplay" style="min-width: 40px; font-weight: bold;">0.00</span>
@@ -121,26 +131,33 @@
     const timeDisplay = document.getElementById('timeDisplay');
     const showLinesCheckbox = document.getElementById('showLines');
     const reshuffleBtn = document.getElementById('reshuffleBtn');
+    
+    // 動畫控制按鈕
+    const btnForward = document.getElementById('btnForward');
+    const btnPause = document.getElementById('btnPause');
+    const btnBackward = document.getElementById('btnBackward');
 
-    // 核心資料邏輯 (完整保留您的修改)
+    // 核心資料邏輯
     const numPoints = 300;
     let sourcePoints = [];
     let targetPoints = [];
     let pairings = []; 
+
+    // 動畫狀態
+    let playDirection = 0; // 1: 正向, -1: 反向, 0: 暫停
 
     // 固定比例和中心 (適應 600x600 畫布)
     const scale = 40; 
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
 
-    // 您修改後的捷運站名稱與座標 centers
+    // 捷運站名稱與座標
     const targetCenters = [
         {x: 0, y: 4.2, name: "市政府捷運站"},
         {x: -3.2, y: -3, name: "101捷運站"},
         {x: 3.2, y: -3, name: "象山捷運站"}
     ];
 
-    // 您修改後的 Box-Muller transform 生成常態分佈參數
     function randomGaussian(meanX, meanY, std) {
         let u1 = Math.random();
         let u2 = Math.random();
@@ -185,15 +202,15 @@
         }
     }
 
-    // 座標轉換 (固定畫布)
+    // 座標轉換
     function toScreen(mathX, mathY) {
         return {
             x: centerX + mathX * scale,
-            y: centerY - mathY * scale // 修正 Y 軸向下問題
+            y: centerY - mathY * scale // Y 軸向下
         };
     }
 
-    // 繪製函數 (融合您的修改與粒子顏色特效)
+    // 繪製函數
     function draw() {
         const t = parseFloat(timeSlider.value);
         timeDisplay.innerText = t.toFixed(2);
@@ -201,28 +218,24 @@
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // --- 0. 畫出淡淡的背景圖示與標籤 (浮水印，完整保留您的修改) ---
+        // --- 0. 畫出淡淡的背景圖示與標籤 ---
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.font = "bold 18px sans-serif";
 
-        // 台北 101 標籤
         const p101 = toScreen(0, 0);
-        ctx.fillStyle = "rgba(6, 182, 212, 0.25)"; // 淡淡的青色
+        ctx.fillStyle = "rgba(6, 182, 212, 0.25)"; 
         ctx.fillText("", p101.x, p101.y - 65);
 
-        // 捷運站標籤 (使用您的 modified 偏移量邏輯)
-        ctx.fillStyle = "rgba(234, 88, 12, 0.8)"; // 淡淡的橘色
+        ctx.fillStyle = "rgba(234, 88, 12, 0.8)"; 
         for(let i=0; i<3; i++) {
             let pMrt = toScreen(targetCenters[i].x, targetCenters[i].y);
-            // 保留您修改後的精確偏移量常數
             let offsetY = targetCenters[i].y > 0 ? 55 : -55; 
             let offsetX = targetCenters[i].x > 0 ? 55 : -55; 
             ctx.fillText(targetCenters[i].name, pMrt.x + 1.6* offsetX, pMrt.y - 1.8* offsetY);
         }
-        // ------------------------------------
 
-        // 1. 畫出混亂的毛線球連線 (Spaghetti lines)
+        // 1. 畫出混亂的毛線球連線
         if (showLines) {
             ctx.lineWidth = 1;
             for (let i = 0; i < numPoints; i++) {
@@ -231,27 +244,27 @@
                 ctx.beginPath();
                 ctx.moveTo(p0.x, p0.y);
                 ctx.lineTo(p1.x, p1.y);
-                ctx.strokeStyle = 'rgba(234, 179, 8, 0.15)'; // 淡淡的金色連線
+                ctx.strokeStyle = 'rgba(234, 179, 8, 0.15)'; 
                 ctx.stroke();
             }
         }
 
-        // 2. 畫出起點和終點的底圖 (微暗)
+        // 2. 畫出起點和終點的底圖
         for (let i = 0; i < numPoints; i++) {
             const p0 = toScreen(sourcePoints[i].x, sourcePoints[i].y);
             ctx.beginPath();
             ctx.arc(p0.x, p0.y, 2.5, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(6, 182, 212, 0.3)'; // 黯淡的青藍色 (Noise)
+            ctx.fillStyle = 'rgba(6, 182, 212, 0.3)'; 
             ctx.fill();
 
             const p1 = toScreen(targetPoints[i].x, targetPoints[i].y);
             ctx.beginPath();
             ctx.arc(p1.x, p1.y, 2.5, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(234, 88, 12, 0.3)'; // 黯淡的橘紅色 (Data)
+            ctx.fillStyle = 'rgba(234, 88, 12, 0.3)'; 
             ctx.fill();
         }
 
-        // 3. 畫出正在移動的粒子 (X_t = (1-t)X_0 + tX_1，完整保留您的顏色漸變細節)
+        // 3. 畫出正在移動的粒子 (X_t = (1-t)X_0 + tX_1)
         for (let i = 0; i < numPoints; i++) {
             const p0 = sourcePoints[i];
             const p1 = targetPoints[pairings[i]];
@@ -260,7 +273,6 @@
             const currentY = (1 - t) * p0.y + t * p1.y;
             const pos = toScreen(currentX, currentY);
 
-            // 您的顏色插值邏輯：冷藍色 (Noise) -> 暖橘色 (Data)
             const r = Math.round((1 - t) * 6 + t * 234);
             const g = Math.round((1 - t) * 182 + t * 88);
             const b = Math.round((1 - t) * 212 + t * 12);
@@ -269,17 +281,48 @@
             ctx.arc(pos.x, pos.y, 3.5, 0, Math.PI * 2);
             ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
             
-            // 您的發光特效
             ctx.shadowBlur = 8;
             ctx.shadowColor = `rgb(${r}, ${g}, ${b})`;
             ctx.fill();
-            ctx.shadowBlur = 0; // 重置
+            ctx.shadowBlur = 0; 
         }
     }
 
-    // 事件監聽 (適應新模板樣式)
-    timeSlider.addEventListener('input', draw);
+    // --- 動畫循環邏輯 ---
+    function loop() {
+        if (playDirection !== 0) {
+            let t = parseFloat(timeSlider.value);
+            let dt = 0.005; // 播放速度
+            t += playDirection * dt;
+
+            if (t >= 1) { 
+                t = 1; 
+                playDirection = 0; // 播到底自動停止
+            } else if (t <= 0) { 
+                t = 0; 
+                playDirection = 0; 
+            }
+
+            timeSlider.value = t;
+            timeDisplay.innerText = t.toFixed(2);
+            draw();
+        }
+        requestAnimationFrame(loop);
+    }
+
+    // --- 事件監聽 ---
+    btnForward.addEventListener('click', () => playDirection = 1);
+    btnBackward.addEventListener('click', () => playDirection = -1);
+    btnPause.addEventListener('click', () => playDirection = 0);
+
+    timeSlider.addEventListener('input', (e) => {
+        playDirection = 0; // 手動拖曳時自動暫停
+        timeDisplay.innerText = parseFloat(e.target.value).toFixed(2);
+        draw();
+    });
+    
     showLinesCheckbox.addEventListener('change', draw);
+    
     reshuffleBtn.addEventListener('click', () => {
         createRandomPairing();
         draw();
@@ -287,6 +330,7 @@
 
     // 啟動
     initData();
+    loop(); // 啟動動畫循環
 </script>
 
 </body>
