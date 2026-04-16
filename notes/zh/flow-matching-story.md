@@ -1,22 +1,31 @@
 <style>
-/* 1. 修正手機端數學公式超出版面 (支援 MathJax 與 KaTeX) */
+/* 1. 修正手機端數學公式超出版面 */
 .MathJax_Display, .katex-display, mjx-container, .math-display, .math {
     max-width: 100%;
     overflow-x: auto !important;
     overflow-y: hidden;
-    -webkit-overflow-scrolling: touch; /* 讓 iOS 上的滑動更順暢 */
-    padding-bottom: 5px; /* 避免卷軸遮擋公式底部 */
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 5px;
 }
 
-/* 2. 確保互動式 Demo 不會撐破手機版面，允許局部水平滑動 */
+/* 2. 讓 iframe 能夠像圖片一樣自動等比例縮放 (使用 CSS Container Queries) */
 .demo-wrapper {
+    container-type: inline-size; /* 建立容器座標系 */
     width: 100%;
-    max-width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    margin: 20px 0;
+    max-width: 800px; /* 原始設計寬度 */
+    margin: 20px auto;
+    overflow: hidden;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    background: #f8f9fa;
+}
+
+.demo-wrapper iframe {
+    width: 800px !important; /* 強制 iframe 保持原始邏輯寬度 */
+    transform-origin: top left; /* 從左上角開始縮放 */
+    transform: scale(calc(100cqi / 800)); /* 動態計算縮放比例：當前容器寬度 / 800 */
+    border: none;
+    display: block;
 }
 </style>
 
@@ -167,10 +176,10 @@ $$
 
 👇 動手探索：請拖曳下方的時間軸，親眼觀察 $x(t)$，觀察這些代表噪聲的「沙堆」，是如何一步步被搬運並聚集成有結構的「沙堡」！
 
-<div class="demo-wrapper">
+<div class="demo-wrapper" style="aspect-ratio: 800 / 1080;">
 <iframe 
   src="/personal_website/notes/zh/flow_matching_story_sim.html"
-  style="width:100%; min-width: 800px; height:1080px; border:none; overflow:hidden;"
+  style="height:1080px;"
   scrolling="no"
 ></iframe>
 </div>
@@ -231,10 +240,10 @@ $$
 👉 沿著 velocity field $v(x,t)$ 持續累積「位移」，  
 👉 最終得到生成的樣本 $x(1)$。
 
-<div class="demo-wrapper">
+<div class="demo-wrapper" style="aspect-ratio: 800 / 1200;">
 <iframe 
   src="/personal_website/notes/zh/flow_matching_story_velocity.html"
-  style="width:100%; min-width: 800px; height:1200px; border:none; overflow:hidden;"
+  style="height:1200px;"
   scrolling="no"
 ></iframe>
 </div>
@@ -270,10 +279,10 @@ $$
 
 這種「用離散步驟去近似連續時間演化」的方法，本質上會產生誤差，通常被稱為：**truncation error**.
 
-<div class="demo-wrapper">
+<div class="demo-wrapper" style="aspect-ratio: 800 / 840;">
 <iframe 
   src="/personal_website/notes/zh/flow_matching_story_truncation_error.html"
-  style="width:100%; min-width: 800px; height:840px; border:none; overflow:hidden;"
+  style="height:840px;"
   scrolling="no"
 ></iframe>
 </div>
