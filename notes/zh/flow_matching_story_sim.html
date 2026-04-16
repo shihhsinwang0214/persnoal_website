@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flow Matching 軌跡視覺化</title>
     
-    
     <script>
       MathJax = {
         tex: {
@@ -16,8 +15,6 @@
     <script id="MathJax-script" async
       src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
     </script>
-    
-    
     
     <style>
         body {
@@ -201,7 +198,7 @@
         const r = Math.floor((1 - t) * 70 + t * 255);
         const g = Math.floor((1 - t) * 150 + t * 120);
         const b = Math.floor((1 - t) * 255 + t * 50);
-        const alpha = 0.5 + t * 0.3; // 稍微增加目標狀態的透明度不透明度
+        const alpha = 0.5 + t * 0.3; // 稍微增加目標狀態的透明度
 
         particles.forEach(p => {
             const currentX = (1 - t) * p.x0 + t * p.x1;
@@ -242,12 +239,12 @@
     stepSlider.addEventListener('input', () => { stepDisplay.innerText = stepSlider.value; });
     timeSlider.addEventListener('input', () => { direction = 0; draw(); });
     
-    // ✅ 修改這裡：當形狀改變時，暫停動畫並將時間歸零
+    // ===== 修改這裡：當下拉選單改變時，將時間軸歸零並暫停動畫 =====
     shapeSelect.addEventListener('change', () => {
-        direction = 0;           // 停止播放
+        direction = 0;           // 暫停播放
         timeSlider.value = 0;    // 時間軸歸零
-        timeDisplay.innerText = "0.00"; // 更新時間文字
-        initParticles();         // 重新生成粒子
+        timeDisplay.innerText = "0.00"; 
+        initParticles();         // 重新生成點陣 (這會自動呼叫 draw() 繪出藍色起點)
     });
 
     initParticles();
