@@ -213,7 +213,7 @@ $$
 
 <iframe 
   src="/personal_website/notes/zh/flow_matching_story_velocity.html"
-  style="width:100%; height:1080px; border:none; overflow:hidden;"
+  style="width:100%; height:1200px; border:none; overflow:hidden;"
   scrolling="no"
 ></iframe>
 
@@ -250,7 +250,7 @@ $$
 這種「用離散步驟去近似連續時間演化」的方法，本質上會產生誤差，通常被稱為：**truncation error**.
 
 <iframe 
-  src="/personal_website/notes/zh/flow_matching_story_sim.html"
+  src="/personal_website/notes/zh/flow_matching_story_truncation_error.html"
   style="width:100%; height:1080px; border:none; overflow:hidden;"
   scrolling="no"
 ></iframe>
