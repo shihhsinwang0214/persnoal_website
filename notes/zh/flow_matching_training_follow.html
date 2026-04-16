@@ -87,12 +87,14 @@
             transition: background 0.2s;
         }
         button:hover { background-color: #004494; }
+        button.btn-stop { background-color: #dc3545; }
+        button.btn-stop:hover { background-color: #a71d2a; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>真相大白：湧現的非線性軌跡 (Flow ODE)</h2>
+    <h2> 隨人潮而動的(非線性)軌跡 </h2>
     
     <div class="canvas-container">
         <canvas id="simCanvas" width="600" height="600"></canvas>
@@ -107,9 +109,15 @@
             </div>
             
             <div class="control-row">
+                <button id="btnForward">▶ 播放</button>
+                <button id="btnPause" class="btn-stop">⏸ 暫停</button>
+                <button id="btnBackward">◀ 反向</button>
+            </div>
+
+            <div class="control-row">
                 <span class="label-text">時間 $t$:</span>
-                <input type="range" id="timeSlider" min="0" max="0.999" step="0.001" value="0.5">
-                <span id="timeDisplay" style="min-width: 40px; font-weight: bold;">0.500</span>
+                <input type="range" id="timeSlider" min="0" max="0.999" step="0.001" value="0">
+                <span id="timeDisplay" style="min-width: 40px; font-weight: bold;">0.000</span>
             </div>
         </div>
     </div>
@@ -122,13 +130,18 @@
     const timeDisplay = document.getElementById('timeDisplay');
     const showLinesCheckbox = document.getElementById('showLines');
     const randomStartBtn = document.getElementById('randomStartBtn');
+    
+    // 動畫控制按鈕
+    const btnForward = document.getElementById('btnForward');
+    const btnPause = document.getElementById('btnPause');
+    const btnBackward = document.getElementById('btnBackward');
 
     // 資料與畫布設定
     const numPoints = 300;
     let sourcePoints = [];
     let targetPoints = [];
     let pairings = [];
-    let odePath = []; // 儲存 1000 步的軌跡點
+    let odePath = []; // 儲存 1000 步的軌跡點與速度 {x, y, t, vx, vy}
 
     const scale = 38; 
     const centerX = canvas.width / 2;
@@ -138,6 +151,7 @@
     // 使用者可拖曳的起點 x(0)
     let obsPoint = { x: 0.5, y: 1.0 }; 
     let isDragging = false;
+    let playDirection = 0; // 1: 正轉, -1: 反轉, 0: 暫停
 
     const targetCenters = [
         {x: 0, y: 4.5, name: "市政府捷運站"},
@@ -172,6 +186,20 @@
     function toScreen(mathX, mathY) { return { x: centerX + mathX * scale, y: centerY - mathY * scale }; }
     function toMath(screenX, screenY) { return { x: (screenX - centerX) / scale, y: -(screenY - centerY) / scale }; }
 
+    // 繪製箭頭的輔助函數
+    function drawArrow(ctx, fromX, fromY, toX, toY, color, lineWidth, headlen = 10) {
+        const angle = Math.atan2(toY - fromY, toX - fromX);
+        ctx.beginPath();
+        ctx.moveTo(fromX, fromY);
+        ctx.lineTo(toX, toY);
+        ctx.lineTo(toX - headlen * Math.cos(angle - Math.PI / 6), toY - headlen * Math.sin(angle - Math.PI / 6));
+        ctx.moveTo(toX, toY);
+        ctx.lineTo(toX - headlen * Math.cos(angle + Math.PI / 6), toY - headlen * Math.sin(angle + Math.PI / 6));
+        ctx.strokeStyle = color;
+        ctx.lineWidth = lineWidth;
+        ctx.stroke();
+    }
+
     // ====== 核心：1000 步 Euler Discretization ======
     function calculateODE() {
         odePath = [];
@@ -179,11 +207,10 @@
         const dt = 1.0 / steps;
         
         let currentX = { x: obsPoint.x, y: obsPoint.y };
-        odePath.push({ ...currentX, t: 0 });
-
         let t = 0;
+
         // 算到 0.999 避免 t=1 時除以零
-        for (let step = 0; step < steps - 1; step++) {
+        for (let step = 0; step < steps; step++) {
             let inv_t1 = 1.0 / (1.0 - t);
             let inv_t1_sq = inv_t1 * inv_t1;
             
@@ -199,7 +226,6 @@
             let expectedX1 = { x: 0, y: 0 };
 
             for (let k = 0; k < numPoints; k++) {
-                // p_0(z) 的指數部分，並減去 minD 防止 underflow
                 let exponent = - (distances[k] - minD) * inv_t1_sq / (2 * sigma * sigma);
                 let w = Math.exp(exponent);
                 
@@ -211,16 +237,17 @@
             expectedX1.x /= weightSum;
             expectedX1.y /= weightSum;
 
-            // v(x,t) = (E[X1] - x) / (1 - t)
+            // 算出當下的速度 v(x,t) = (E[X1] - x) / (1 - t)
             let vx = (expectedX1.x - currentX.x) * inv_t1;
             let vy = (expectedX1.y - currentX.y) * inv_t1;
 
-            // Euler 更新
+            // 儲存當下狀態 (包含速度)
+            odePath.push({ x: currentX.x, y: currentX.y, t: t, vx: vx, vy: vy });
+
+            // Euler 更新到下一步
             currentX.x += vx * dt;
             currentX.y += vy * dt;
             t += dt;
-            
-            odePath.push({ ...currentX, t: t });
         }
     }
 
@@ -235,7 +262,7 @@
         ctx.font = "bold 16px sans-serif";
         const p101 = toScreen(0, 0);
         ctx.fillStyle = "rgba(6, 182, 212, 0.25)"; 
-        ctx.fillText("101", p101.x, p101.y - 50);
+        ctx.fillText("", p101.x, p101.y - 50);
 
         ctx.fillStyle = "rgba(234, 88, 12, 0.25)"; 
         for(let i=0; i<3; i++) {
@@ -289,10 +316,30 @@
             // --- 5. 畫出當前時間 t 的移動中粒子 ---
             let pathIndex = Math.floor(currentTime * 1000);
             if (pathIndex >= odePath.length) pathIndex = odePath.length - 1;
-            let currentParticle = toScreen(odePath[pathIndex].x, odePath[pathIndex].y);
+            let currentP = odePath[pathIndex];
+            let currentParticleScreen = toScreen(currentP.x, currentP.y);
 
+            // a. 畫出粒子的速度箭頭 v(x,t)
+            let vMag = Math.hypot(currentP.vx, currentP.vy);
+            if (vMag > 0.001) {
+                let maxVisualLength = 1.8; // 限制畫面上箭頭的最大長度，避免接近 t=1 時箭頭飛出去
+                let visualMag = Math.min(vMag * 0.25, maxVisualLength);
+                let vxDraw = (currentP.vx / vMag) * visualMag;
+                let vyDraw = (currentP.vy / vMag) * visualMag;
+                let vEndScreen = toScreen(currentP.x + vxDraw, currentP.y + vyDraw);
+
+                // 畫黃色箭頭
+                drawArrow(ctx, currentParticleScreen.x, currentParticleScreen.y, vEndScreen.x, vEndScreen.y, '#fef08a', 3, 10);
+                
+                // 標示 v(x,t)
+                ctx.fillStyle = '#fef08a';
+                ctx.font = 'bold 15px sans-serif';
+                ctx.fillText("v(x,t)", vEndScreen.x - 40, vEndScreen.y);
+            }
+
+            // b. 畫出粒子本體
             ctx.beginPath();
-            ctx.arc(currentParticle.x, currentParticle.y, 6, 0, Math.PI * 2);
+            ctx.arc(currentParticleScreen.x, currentParticleScreen.y, 6, 0, Math.PI * 2);
             ctx.fillStyle = '#fff';
             ctx.shadowBlur = 15;
             ctx.shadowColor = '#fff';
@@ -301,7 +348,7 @@
             
             // 畫個小外框
             ctx.beginPath();
-            ctx.arc(currentParticle.x, currentParticle.y, 10, 0, Math.PI * 2);
+            ctx.arc(currentParticleScreen.x, currentParticleScreen.y, 10, 0, Math.PI * 2);
             ctx.strokeStyle = '#22c55e';
             ctx.lineWidth = 2;
             ctx.stroke();
@@ -320,11 +367,39 @@
         ctx.fillText("起點 x(0)", obsScreen.x, obsScreen.y - 20);
     }
 
-    // 事件監聽與互動邏輯
+    // 動畫循環邏輯
+    function loop() {
+        if (playDirection !== 0) {
+            let t = parseFloat(timeSlider.value);
+            let dt = 0.005; // 播放速度
+            t += playDirection * dt;
+
+            if (t >= 0.999) { 
+                t = 0.999; 
+                playDirection = 0; // 播到底自動停止
+            } else if (t <= 0) { 
+                t = 0; 
+                playDirection = 0; 
+            }
+
+            timeSlider.value = t;
+            timeDisplay.innerText = t.toFixed(3);
+            draw();
+        }
+        requestAnimationFrame(loop);
+    }
+
+    // 控制面板事件監聽
+    btnForward.addEventListener('click', () => playDirection = 1);
+    btnBackward.addEventListener('click', () => playDirection = -1);
+    btnPause.addEventListener('click', () => playDirection = 0);
+
     timeSlider.addEventListener('input', (e) => {
+        playDirection = 0; // 手動拖曳時自動暫停
         timeDisplay.innerText = parseFloat(e.target.value).toFixed(3);
         draw();
     });
+
     showLinesCheckbox.addEventListener('change', draw);
 
     // 隨機抽取按鈕邏輯
@@ -333,7 +408,10 @@
         const randomIdx = Math.floor(Math.random() * sourcePoints.length);
         obsPoint.x = sourcePoints[randomIdx].x;
         obsPoint.y = sourcePoints[randomIdx].y;
-        calculateODE(); // 重新計算積分軌跡
+        timeSlider.value = 0; // 重置時間
+        timeDisplay.innerText = "0.000";
+        playDirection = 1; // 抽取後自動開始播放
+        calculateODE(); 
         draw();
     });
 
@@ -343,7 +421,12 @@
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
         const obsScreen = toScreen(obsPoint.x, obsPoint.y);
-        if (Math.hypot(mouseX - obsScreen.x, mouseY - obsScreen.y) < 25) isDragging = true;
+        if (Math.hypot(mouseX - obsScreen.x, mouseY - obsScreen.y) < 25) {
+            isDragging = true;
+            playDirection = 0; // 拖曳時暫停播放
+            timeSlider.value = 0; // 拖曳時強制回到起點讓使用者看清楚
+            timeDisplay.innerText = "0.000";
+        }
     });
 
     canvas.addEventListener('mousemove', (e) => {
@@ -361,6 +444,7 @@
 
     // 啟動
     initData();
+    loop(); // 啟動動畫循環
 </script>
 
 </body>
