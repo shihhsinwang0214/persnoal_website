@@ -251,7 +251,7 @@ $$
 
 <iframe 
   src="/personal_website/notes/zh/flow_matching_story_truncation_error.html"
-  style="width:100%; height:960px; border:none; overflow:hidden;"
+  style="width:100%; height:840px; border:none; overflow:hidden;"
   scrolling="no"
 ></iframe>
 
