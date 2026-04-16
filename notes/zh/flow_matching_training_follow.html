@@ -94,14 +94,29 @@
 <body>
 
 <div class="container">
-    <h2>隨人潮而動的(非線性)軌跡</h2>
-    <p> <span style="color: #fef09a; background-color: #111;">黃色箭頭</span> 代表計算出來的平均瞬時速度 $v(x, t)$。
-        </p>
-        <p> 給定任一個 $x(0)$，我們透過 $v(x, t)$ 定義出的 Flow ODE  $\frac{dx}{dt} = v(x(t), t)$，
-        </p>
-        <p> 
-        生成出軌跡 $x(t)$ 將 $x(0)$ 送到 $x(1)$ (落在其中一個捷運站)。
-        </p>
+<h2>隨人潮而動的（非線性）軌跡</h2>
+
+<p>
+先點擊「隨機抽取起點」來選擇一個初始位置 $x(0)$。
+</p>
+<p>
+<span style="color: #fef08a; background-color: #111; padding: 2px 4px; border-radius: 4px;">
+黃色箭頭</span>
+代表在當下位置與時間計算得到的平均瞬時速度 $v(x, t)$。
+</p>
+<p>
+接著，透過 Flow ODE 
+$\frac{dx}{dt} = v(x(t), t)$，
+我們可以生成一條軌跡 $x(t)$，
+</p>
+<p>
+將起點 $x(0)$ 一步步搬運到 $x(1)$（最終落在其中一個捷運站）。
+</p>
+
+<p>
+你也可以自由拖曳起點，
+觀察不同初始位置所對應的軌跡變化。
+</p>
         
     <div class="canvas-container">
         <canvas id="simCanvas" width="600" height="600"></canvas>
