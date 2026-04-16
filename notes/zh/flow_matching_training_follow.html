@@ -95,7 +95,7 @@
 <p>
 <span style="color: #fef08a; background-color: #111; padding: 2px 4px; border-radius: 4px;">
 黃色箭頭</span>
-代表在當下位置與時間計算得到的平均瞬時速度 $v(x, t)$。
+代表在當下位置與時間計算得到的平均瞬時速度 $v(x(t), t)$。
 </p>
 <p>
 接著，透過 Flow ODE $\frac{dx}{dt} = v(x(t), t)$，我們可以生成一條軌跡 $x(t)$，將起點 $x(0)$ 一步步搬運到 $x(1)$。
@@ -391,7 +391,7 @@
                 
                 ctx.fillStyle = '#fef08a';
                 ctx.font = 'bold 15px sans-serif';
-                ctx.fillText("v(x,t)", vEndScreen.x - 30, vEndScreen.y);
+                ctx.fillText("v(x(t),t)", vEndScreen.x - 30, vEndScreen.y);
             }
 
             // 粒子本體
