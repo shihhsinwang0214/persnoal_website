@@ -145,11 +145,9 @@ $$
 
 👇 動手探索：請拖曳下方的時間軸，親眼觀察 $x(t)$，觀察這些代表噪聲的「沙堆」，是如何一步步被搬運並聚集成有結構的「沙堡」！
 
-<!--="height:1080px;"
- -->
 
 <div class="demo-wrapper">
-  <iframe src="/personal_website/notes/zh/flow_matching_story_sim.html" style = "height:1080px;" class="demo-frame"></iframe>
+  <iframe src="/personal_website/notes/zh/flow_matching_story_sim.html" class="demo-frame"></iframe>
 </div>
 
 ---
@@ -209,8 +207,9 @@ $$
 👉 最終得到生成的樣本 $x(1)$。
 
 <div class="demo-wrapper">
-  <iframe src="/personal_website/notes/zh/flow_matching_truncation_velocity.html" style = "height:1200px;" class="demo-frame"></iframe>
+  <iframe src="/personal_website/notes/zh/flow_matching_story_truncation_velocity.html" class="demo-frame"></iframe>
 </div>
+
 
 ---
 
@@ -245,7 +244,7 @@ $$
 
 
 <div class="demo-wrapper">
-  <iframe src="/personal_website/notes/zh/flow_matching_truncation_error.html" style = "height:840px;" class="demo-frame"></iframe>
+  <iframe src="/personal_website/notes/zh/flow_matching_story_truncation_error.html" class="demo-frame"></iframe>
 </div>
 
 ---
