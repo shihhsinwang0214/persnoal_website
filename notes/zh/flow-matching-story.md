@@ -1,34 +1,3 @@
-<style>
-/* 1. 修正手機端數學公式超出版面 */
-.MathJax_Display, .katex-display, mjx-container, .math-display, .math {
-    max-width: 100%;
-    overflow-x: auto !important;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 5px;
-}
-
-/* 2. 讓 iframe 能夠像圖片一樣自動等比例縮放 (使用 CSS Container Queries) */
-.demo-wrapper {
-    container-type: inline-size; /* 建立容器座標系 */
-    width: 100%;
-    max-width: 800px; /* 原始設計寬度 */
-    margin: 20px auto;
-    overflow: hidden;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    background: #f8f9fa;
-}
-
-.demo-wrapper iframe {
-    width: 800px !important; /* 強制 iframe 保持原始邏輯寬度 */
-    transform-origin: top left; /* 從左上角開始縮放 */
-    transform: scale(calc(100cqi / 800)); /* 動態計算縮放比例：當前容器寬度 / 800 */
-    border: none;
-    display: block;
-}
-</style>
-
 # 從沙堆到沙堡：理解 Flow Matching 背後的 Flow ODE
 
 ## 本章將會介紹
