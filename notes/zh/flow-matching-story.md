@@ -207,7 +207,7 @@ $$
 👉 最終得到生成的樣本 $x(1)$。
 
 <div class="demo-wrapper">
-  <iframe src="/personal_website/notes/zh/flow_matching_story_truncation_velocity.html" class="demo-frame"></iframe>
+  <iframe src="/personal_website/notes/zh/flow_matching_story_velocity.html" class="demo-frame"></iframe>
 </div>
 
 
