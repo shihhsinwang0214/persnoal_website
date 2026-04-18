@@ -149,7 +149,7 @@ $$
  -->
 
 <div class="demo-wrapper">
-  <iframe src="/personal_website/notes/zh/flow_matching_story_sim.html" class="demo-frame"></iframe>
+  <iframe src="/personal_website/notes/zh/flow_matching_story_sim.html" style = "height:1080px;" class="demo-frame"></iframe>
 </div>
 
 ---
@@ -208,12 +208,9 @@ $$
 👉 沿著 velocity field $v(x,t)$ 持續累積「位移」，  
 👉 最終得到生成的樣本 $x(1)$。
 
-
-<iframe 
-  src="/personal_website/notes/zh/flow_matching_story_velocity.html"
-  style="height:1200px;"
-  scrolling="no"
-></iframe>
+<div class="demo-wrapper">
+  <iframe src="/personal_website/notes/zh/flow_matching_truncation_velocity.html" style = "height:1200px;" class="demo-frame"></iframe>
+</div>
 
 ---
 
@@ -247,12 +244,9 @@ $$
 這種「用離散步驟去近似連續時間演化」的方法，本質上會產生誤差，通常被稱為：**truncation error**.
 
 
-<iframe 
-  src="/personal_website/notes/zh/flow_matching_story_truncation_error.html"
-  style="height:840px;"
-  scrolling="no"
-></iframe>
-
+<div class="demo-wrapper">
+  <iframe src="/personal_website/notes/zh/flow_matching_truncation_error.html" style = "height:840px;" class="demo-frame"></iframe>
+</div>
 
 ---
 
