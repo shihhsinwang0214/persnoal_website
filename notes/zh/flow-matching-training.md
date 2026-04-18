@@ -51,6 +51,8 @@ $$
 
 <iframe src="/personal_website/notes/zh/flow_matching_training_setting.html" style="width:100%; height:500px; border:none; overflow:hidden;" scrolling="no" ></iframe>
 
+> 📱 **手機版提示：** 由於螢幕寬度限制，請點擊 [👉 在螢幕](/personal_website/notes/zh/flow_matching_training_setting.html) 以獲得最佳的互動體驗。
+> 
 ---
 
 ## 最直覺的做法：兩點之間走直線
@@ -74,6 +76,9 @@ $$
 你會發現畫面變成了一團混亂的毛線球！你可以多按幾次「重新隨機配對」，並試著拖曳「搬運進度 $t$ 」滑桿，觀察粒子在這團混亂的軌跡中是如何移動的。
 
 <iframe src="/personal_website/notes/zh/flow_matching_training_stochastic_interpolants.html" style="width:100%; height:1080px; border:none; overflow:hidden;" scrolling="no" ></iframe>
+
+> 📱 **手機版提示：** 由於螢幕寬度限制，請點擊 [👉 在螢幕](/personal_website/notes/zh/flow_matching_training_stochastic_interpolants.html) 以獲得最佳的互動體驗。
+
 
 ---
 
@@ -251,10 +256,10 @@ $$
 
 點擊「🎲 隨機抽取起點」或者直接在畫布中「自由拖曳起點」來模擬迷茫不知道方向的人，觀察用 1000 步 Euler Discretization 算出的平滑曲線！
 
-<div style="width: 100%; max-width: 800px; aspect-ratio: 800 / 600; margin: 0 auto; overflow: hidden; border-radius: 12px; border: 1px solid var(--border); background: #0f172a;">
+<div style="width: 100%; aspect-ratio: 800 / 600; margin: 0 auto; overflow: hidden; border-radius: 12px; border: 1px solid var(--border); background: #0f172a;">
     <iframe 
         src="/personal_website/notes/zh/flow_matching_training_follow.html" 
-        style="width: 100%; height: 100%; border: none; display: block;" 
+        style="width: 100%; height: 1200px; border: none; display: block;" 
         scrolling="no">
     </iframe>
 </div>
