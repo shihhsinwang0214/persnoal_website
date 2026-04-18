@@ -37,10 +37,12 @@ $$
 👉 我們的目標是：
 把跨年人潮疏散到三個捷運站。
 
-<iframe src="/personal_website/notes/zh/flow_matching_training_setting.html" style="width:100%; height:500px; border:none; overflow:hidden;" scrolling="no" ></iframe>
+<div class="demo-wrapper">
+  <iframe src="/personal_website/notes/zh/flow_matching_training_setting.html" class="demo-frame"></iframe>
+</div>
 
-> 📱 **手機版提示：** 由於螢幕寬度限制，請點擊 [👉 在螢幕](/personal_website/notes/zh/flow_matching_training_setting.html) 以獲得最佳的互動體驗。
-> 
+> **全螢幕：** 點擊 [👉 全螢幕](/personal_website/notes/zh/flow_matching_training_setting.html)
+
 ---
 
 ## 最直覺的做法：兩點之間走直線
@@ -63,9 +65,11 @@ $$
 請先觀察畫面上的藍點（起點）與橘點（終點）。接著，請打開「顯示隨機配對連線」的開關。
 你會發現畫面變成了一團混亂的毛線球！你可以多按幾次「重新隨機配對」，並試著拖曳「搬運進度 $t$ 」滑桿，觀察粒子在這團混亂的軌跡中是如何移動的。
 
-<iframe src="/personal_website/notes/zh/flow_matching_training_stochastic_interpolants.html" style="width:100%; height:1080px; border:none; overflow:hidden;" scrolling="no" ></iframe>
+<div class="demo-wrapper">
+  <iframe src="/personal_website/notes/zh/flow_matching_training_stochastic_interpolants.html" class="demo-frame"></iframe>
+</div>
 
-> 📱 **手機版提示：** 由於螢幕寬度限制，請點擊 [👉 在螢幕](/personal_website/notes/zh/flow_matching_training_stochastic_interpolants.html) 以獲得最佳的互動體驗。
+> **全螢幕：** 點擊 [👉 全螢幕](/personal_website/notes/zh/flow_matching_training_stochastic_interpolants.html)
 
 
 ---
@@ -244,9 +248,13 @@ $$
 
 點擊「🎲 隨機抽取起點」或者直接在畫布中「自由拖曳起點」來模擬迷茫不知道方向的人，觀察用 1000 步 Euler Discretization 算出的平滑曲線！
 
-<iframe src="/personal_website/notes/zh/flow_matching_training_follow.html" style="width:100%; height:1080px; border:none; overflow:hidden;" scrolling="no" ></iframe>
+<div class="demo-wrapper">
+  <iframe src="/personal_website/notes/zh/flow_matching_training_follow.html" class="demo-frame"></iframe>
+</div>
 
-> 📱 **手機版提示：** 由於螢幕寬度限制，請點擊 [👉 在螢幕](/personal_website/notes/zh/flow_matching_training_follow.html) 以獲得最佳的互動體驗。
+<p style="text-align: right; font-size: 0.85rem; margin-top: 6px;">
+  <a href="/personal_website/notes/zh/flow_matching_training_follow.html" target="_blank">↗ 全螢幕開啟</a>
+</p>
 
 ---
 
