@@ -168,20 +168,23 @@ html { scroll-behavior: smooth; }
 /* 針對markdown裡的html demo */
 .demo-wrapper {
   width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
   overflow: hidden;
-  /* 設定你 demo 的原始比例，例如 16:9 */
-  aspect-ratio: 16 / 9;
-  position: relative;
+  margin: 20px 0;
 }
 
 .demo-frame {
-  width: 1280px;        /* demo 原始設計寬度 */
-  height: 720px;
+  width: 100%;
+  height: 600px;
   border: none;
-  transform-origin: top left;
-  position: absolute;
-  top: 0;
-  left: 0;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .demo-frame {
+    height: 80vw;
+  }
 }
 
 /* 針對markdown裡the width of math equations */
