@@ -71,6 +71,17 @@
 </div>
 
 <script>
+    function reportHeight() {
+    const height = document.body.scrollHeight;
+    window.parent.postMessage({ iframeHeight: height }, '*');
+    }
+    
+    // 頁面載入時回報
+    window.addEventListener('load', reportHeight);
+    // 視窗大小改變時回報
+    window.addEventListener('resize', reportHeight);
+    
+
     const canvas = document.getElementById('simCanvas');
     const ctx = canvas.getContext('2d');
     
@@ -86,6 +97,16 @@
     // 調整 Y 軸範圍以容納 2 * 1^5 = 2.0 的最高點
     const minT = 0, maxT = 1.15;
     const minX = -0.2, maxX = 2.5;
+
+        function reportHeight() {
+    const height = document.body.scrollHeight;
+    window.parent.postMessage({ iframeHeight: height }, '*');
+    }
+    
+    // 頁面載入時回報
+    window.addEventListener('load', reportHeight);
+    // 視窗大小改變時回報
+    window.addEventListener('resize', reportHeight);
 
     function mapX(t) { return padding + (t - minT) / (maxT - minT) * (width - 2 * padding); }
     function mapY(x) { return height - padding - (x - minX) / (maxX - minX) * (height - 2 * padding); }
@@ -247,7 +268,10 @@
     }
 
     stepSlider.addEventListener('input', draw);
-    draw(); 
+    draw();
+
+
+
 </script>
 
 </body>
