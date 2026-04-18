@@ -73,7 +73,7 @@ $$
 請先觀察畫面上的藍點（起點）與橘點（終點）。接著，請打開「顯示隨機配對連線」的開關。
 你會發現畫面變成了一團混亂的毛線球！你可以多按幾次「重新隨機配對」，並試著拖曳「搬運進度 $t$ 」滑桿，觀察粒子在這團混亂的軌跡中是如何移動的。
 
-<iframe src="/personal_website/notes/zh/flow_matching_training_stochastic_interpolants.html" style="width:100%; height:1080px;" scrolling="no" ></iframe>
+<iframe src="/personal_website/notes/zh/flow_matching_training_stochastic_interpolants.html" style="width:100%; height:1080px; border:none; overflow:hidden;" scrolling="no" ></iframe>
 
 ---
 
