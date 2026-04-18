@@ -237,7 +237,7 @@ async function loadMarkdown(filePath, btnElement, categoryId, noteIndex) {
     }
 }
 
-window.onload = () => {
+function init() {
     translateHome();
     buildDynamicTree();
 
@@ -259,7 +259,15 @@ window.onload = () => {
             loadCategory(lastCategory);
         }
     }
-};
+}
+
+// 同時監聽兩種情況
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    // 如果已經載入完成（從其他頁面跳轉過來時常發生）
+    init();
+}
 
 
 function scaleIframe() {
