@@ -34,16 +34,21 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             text-align: center;
             max-width: 800px;
+            width: 100%;        /* ← 加這行 */
+            box-sizing: border-box; /* ← 加這行 */
         }
         canvas {
-            background-color: #111; /* 畫布保持深色，以便觀察粒子光暈 */
+            background-color: #111;
             border-radius: 8px;
             margin-top: 15px;
             box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-            /* 固定畫布大小以適應模板 */
-            width: 600px;
-            height: 600px;
+            /* 改這裡 */
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            aspect-ratio: 1 / 1;
         }
+        
         .controls {
             display: flex;
             flex-direction: column;
@@ -89,7 +94,7 @@
             accent-color: #0056b3;
         }
         
-        #timeSlider { width: 300px; }
+        #timeSlider { width: 300px; max-width: 80vw; } /* ← 加 max-width */
         .label-text { font-weight: bold; font-size: 14px; }
     </style>
 </head>
