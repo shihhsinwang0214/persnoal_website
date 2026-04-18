@@ -44,6 +44,20 @@
         .neon-red { color: #ff6666; font-weight: bold; background: #222; padding: 2px 6px; border-radius: 4px; text-shadow: 0 0 5px #ff3333; }
     </style>
 </head>
+
+
+<script>
+  function reportHeight() {
+    const height = document.body.scrollHeight;
+    window.parent.postMessage({ iframeHeight: height }, '*');
+  }
+  
+  // 頁面載入時回報
+  window.addEventListener('load', reportHeight);
+  // 視窗大小改變時回報
+  window.addEventListener('resize', reportHeight);
+</script>
+    
 <body>
 
 <div class="container">
