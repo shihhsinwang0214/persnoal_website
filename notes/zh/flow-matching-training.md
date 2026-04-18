@@ -256,13 +256,7 @@ $$
 
 點擊「🎲 隨機抽取起點」或者直接在畫布中「自由拖曳起點」來模擬迷茫不知道方向的人，觀察用 1000 步 Euler Discretization 算出的平滑曲線！
 
-<div style="width: 100%; aspect-ratio: 800 / 600; margin: 0 auto; overflow: hidden; border-radius: 12px; border: 1px solid var(--border); background: #0f172a;">
-    <iframe 
-        src="/personal_website/notes/zh/flow_matching_training_follow.html" 
-        style="width: 100%; height: 1200px; border: none; display: block;" 
-        scrolling="no">
-    </iframe>
-</div>
+<iframe src="/personal_website/notes/zh/flow_matching_training_follow.html" style="width:100%; height:1080px; border:none; overflow:hidden;" scrolling="no" ></iframe>
 
 > 📱 **手機版提示：** 由於螢幕寬度限制，請點擊 [👉 在螢幕](/personal_website/notes/zh/flow_matching_training_follow.html) 以獲得最佳的互動體驗。
 
