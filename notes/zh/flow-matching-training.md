@@ -245,30 +245,22 @@ $$
 v(x, t) = \mathbb{E}_{X_0, X_1}[X_1-X_0 \mid X_t = x]
 $$
 
---- 
-👇 動手探索：
+---
+
+👇 **動手探索：**
 
 點擊「🎲 隨機抽取起點」或者直接在畫布中「自由拖曳起點」來模擬迷茫不知道方向的人，觀察用 1000 步 Euler Discretization 算出的平滑曲線！
 
-
-<div style="width: 100%; max-width: 800px; margin: 0 auto; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #0f172a;">
-    
+<div style="width: 100%; max-width: 800px; aspect-ratio: 800 / 600; margin: 0 auto; overflow: hidden; border-radius: 12px; border: 1px solid var(--border); background: #0f172a;">
     <iframe 
         src="/personal_website/notes/zh/flow_matching_training_follow.html" 
-        style="width: 100%; height: 600px; border: none; display: block;"
+        style="width: 100%; height: 100%; border: none; display: block;" 
         scrolling="no">
     </iframe>
-
-    <div style="background: var(--box-ml-bg); padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border);">
-        <span style="font-size: 0.85rem; color: var(--text-muted);">
-            💡 提示：在畫布上拖曳粒子觀察生成軌跡及終點的變化
-        </span>
-        <a href="/personal_website/notes/zh/flow_matching_training_follow.html" target="_blank" style="display: inline-block; background: var(--accent); color: white; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 0.9rem; font-weight: bold; transition: opacity 0.2s;">
-            📱 全螢幕開啟
-        </a>
-    </div>
-
 </div>
+
+> 📱 **手機版提示：** 由於螢幕寬度限制，請點擊 [👉 在螢幕](/personal_website/notes/zh/flow_matching_training_follow.html) 以獲得最佳的互動體驗。
+
 ---
 
 ## 如何學這個 velocity field？
