@@ -183,3 +183,12 @@ html { scroll-behavior: smooth; }
   top: 0;
   left: 0;
 }
+
+/* 針對markdown裡the width of math equations */
+.MathJax_Display, .katex-display, mjx-container, .math-display, .math {
+    max-width: 100%;
+    overflow-x: auto !important;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 5px;
+}
