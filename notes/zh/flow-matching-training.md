@@ -7,26 +7,6 @@
     -webkit-overflow-scrolling: touch;
     padding-bottom: 5px;
 }
-
-/* 2. 讓 iframe 能夠像圖片一樣自動等比例縮放 (使用 CSS Container Queries) */
-.demo-wrapper {
-    container-type: inline-size; /* 建立容器座標系 */
-    width: 100%;
-    max-width: 800px; /* 原始設計寬度 */
-    margin: 20px auto;
-    overflow: hidden;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    background: #f8f9fa;
-}
-
-.demo-wrapper iframe {
-    width: 800px !important; /* 強制 iframe 保持原始邏輯寬度 */
-    transform-origin: top left; /* 從左上角開始縮放 */
-    transform: scale(calc(100cqi / 800)); /* 動態計算縮放比例：當前容器寬度 / 800 */
-    border: none;
-    display: block;
-}
 </style>
 
 
@@ -270,8 +250,25 @@ $$
 
 點擊「🎲 隨機抽取起點」或者直接在畫布中「自由拖曳起點」來模擬迷茫不知道方向的人，觀察用 1000 步 Euler Discretization 算出的平滑曲線！
 
-<iframe src="/personal_website/notes/zh/flow_matching_training_follow.html" style="width:100%; height:1080px; border:none; overflow:hidden;" scrolling="no" ></iframe>
 
+<div style="width: 100%; max-width: 800px; margin: 0 auto; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #0f172a;">
+    
+    <iframe 
+        src="/personal_website/notes/zh/flow_matching_training_follow.html" 
+        style="width: 100%; height: 600px; border: none; display: block;"
+        scrolling="no">
+    </iframe>
+
+    <div style="background: var(--box-ml-bg); padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border);">
+        <span style="font-size: 0.85rem; color: var(--text-muted);">
+            💡 提示：在畫布上拖曳粒子觀察生成軌跡及終點的變化
+        </span>
+        <a href="/personal_website/notes/zh/flow_matching_training_follow.html" target="_blank" style="display: inline-block; background: var(--accent); color: white; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 0.9rem; font-weight: bold; transition: opacity 0.2s;">
+            📱 全螢幕開啟
+        </a>
+    </div>
+
+</div>
 ---
 
 ## 如何學這個 velocity field？
