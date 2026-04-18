@@ -37,7 +37,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-                text-align: center;
+            text-align: center;
             margin-top: 20px;
         }
         canvas {
@@ -125,7 +125,12 @@
                 <button id="randomStartBtn">🎲 隨機抽取起點 $x(0)$</button>
                 <div style="display: flex; align-items: center; gap: 5px; margin-left: 15px;">
                     <input type="checkbox" id="showLines">
-                    <label for="showLines" class="label-text">顯示隨機配對直線 $X_t$ </label>
+                    <label for="showLines" class="label-text">顯示 $X_t$ </label>
+                </div>
+                
+                <div style="display: flex; align-items: center; gap: 5px; margin-left: 10px;">
+                    <input type="checkbox" id="showVector" checked>
+                    <label for="showVector" class="label-text">顯示 $v(x,t)$</label>
                 </div>
             </div>
             
@@ -150,6 +155,7 @@
     const timeSlider = document.getElementById('timeSlider');
     const timeDisplay = document.getElementById('timeDisplay');
     const showLinesCheckbox = document.getElementById('showLines');
+    const showVectorCheckbox = document.getElementById('showVector');
     const randomStartBtn = document.getElementById('randomStartBtn');
     const shapeSelect = document.getElementById('shapeSelect');
     const speedSlider = document.getElementById('speedSlider');
@@ -310,6 +316,7 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         const currentTime = parseFloat(timeSlider.value);
         const showLines = showLinesCheckbox.checked;
+        const showVector = showVectorCheckbox.checked;
         const currentShape = shapeSelect.value;
 
         // 背景標籤
@@ -358,6 +365,24 @@
 
         // Flow ODE 軌跡
         if (odePath.length > 0) {
+            
+            // --- 繪製 x(1) 落點標示 ---
+            let endP = odePath[odePath.length - 1];
+            let endScreen = toScreen(endP.x, endP.y);
+            ctx.beginPath();
+            ctx.arc(endScreen.x, endScreen.y, 8, 0, Math.PI*2);
+            ctx.fillStyle = '#f97316'; // 亮橘色
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = '#f97316';
+            ctx.fill();
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = '#fff';
+            ctx.fillText("x(1)", endScreen.x, endScreen.y - 20);
+
+            // --- 繪製主軌跡 ---
             ctx.beginPath();
             let start = toScreen(odePath[0].x, odePath[0].y);
             ctx.moveTo(start.x, start.y);
@@ -372,26 +397,31 @@
             ctx.stroke();
             ctx.shadowBlur = 0;
 
-            // 移動中粒子
+            // --- 繪製移動中粒子 ---
             let pathIndex = Math.floor(currentTime * 1000);
             if (pathIndex >= odePath.length) pathIndex = odePath.length - 1;
             let currentP = odePath[pathIndex];
             let currentParticleScreen = toScreen(currentP.x, currentP.y);
 
-            // 速度箭頭 v(x,t)
-            let vMag = Math.hypot(currentP.vx, currentP.vy);
-            if (vMag > 0.001) {
-                let maxVisualLength = 1.8; 
-                let visualMag = Math.min(vMag * 0.25, maxVisualLength);
-                let vxDraw = (currentP.vx / vMag) * visualMag;
-                let vyDraw = (currentP.vy / vMag) * visualMag;
-                let vEndScreen = toScreen(currentP.x + vxDraw, currentP.y + vyDraw);
+            // 速度箭頭 v(x,t) (受 Checkbox 控制)
+            if (showVector) {
+                let vMag = Math.hypot(currentP.vx, currentP.vy);
+                if (vMag > 0.001) {
+                    let maxVisualLength = 1.8; 
+                    let visualMag = Math.min(vMag * 0.25, maxVisualLength);
+                    let vxDraw = (currentP.vx / vMag) * visualMag;
+                    let vyDraw = (currentP.vy / vMag) * visualMag;
+                    let vEndScreen = toScreen(currentP.x + vxDraw, currentP.y + vyDraw);
 
-                drawArrow(ctx, currentParticleScreen.x, currentParticleScreen.y, vEndScreen.x, vEndScreen.y, '#fef08a', 3, 10);
-                
-                ctx.fillStyle = '#fef08a';
-                ctx.font = 'bold 15px sans-serif';
-                ctx.fillText("v(x(t),t)", vEndScreen.x - 30, vEndScreen.y);
+                    ctx.shadowBlur = 8;
+                    ctx.shadowColor = '#fef08a';
+                    drawArrow(ctx, currentParticleScreen.x, currentParticleScreen.y, vEndScreen.x, vEndScreen.y, '#fef08a', 3, 10);
+                    
+                    ctx.fillStyle = '#fef08a';
+                    ctx.font = 'bold 15px sans-serif';
+                    ctx.fillText("v(x(t),t)", vEndScreen.x - 30, vEndScreen.y);
+                    ctx.shadowBlur = 0;
+                }
             }
 
             // 粒子本體
@@ -420,7 +450,7 @@
         ctx.lineWidth = 2;
         ctx.stroke();
         ctx.fillStyle = '#fff';
-        ctx.fillText("x(0)", obsScreen.x, obsScreen.y - 20);
+        ctx.fillText("x(0)", obsScreen.x, obsScreen.y + 20); // 移到下方避免跟準星重疊
     }
 
     // 動畫循環
@@ -455,6 +485,7 @@
     });
 
     showLinesCheckbox.addEventListener('change', draw);
+    showVectorCheckbox.addEventListener('change', draw); // 監聽顯示向量場開關
 
     shapeSelect.addEventListener('change', () => {
         generateTargetPoints(shapeSelect.value);
