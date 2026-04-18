@@ -145,12 +145,16 @@ $$
 
 👇 動手探索：請拖曳下方的時間軸，親眼觀察 $x(t)$，觀察這些代表噪聲的「沙堆」，是如何一步步被搬運並聚集成有結構的「沙堡」！
 
-<div class="demo-wrapper" style="aspect-ratio: 800 / 1080;">
+<!-- <div class="demo-wrapper" style="aspect-ratio: 800 / 1080;">
 <iframe 
-  src="/personal_website/notes/zh/flow_matching_story_sim.html"
+  src=
   style="height:1080px;"
   scrolling="no"
 ></iframe>
+</div> -->
+
+<div class="demo-wrapper">
+  <iframe src="/personal_website/notes/zh/flow_matching_story_sim.html" class="demo-frame"></iframe>
 </div>
 
 ---
@@ -209,13 +213,12 @@ $$
 👉 沿著 velocity field $v(x,t)$ 持續累積「位移」，  
 👉 最終得到生成的樣本 $x(1)$。
 
-<div class="demo-wrapper" style="aspect-ratio: 800 / 1200;">
+
 <iframe 
   src="/personal_website/notes/zh/flow_matching_story_velocity.html"
   style="height:1200px;"
   scrolling="no"
 ></iframe>
-</div>
 
 ---
 
@@ -248,13 +251,13 @@ $$
 
 這種「用離散步驟去近似連續時間演化」的方法，本質上會產生誤差，通常被稱為：**truncation error**.
 
-<div class="demo-wrapper" style="aspect-ratio: 800 / 840;">
+
 <iframe 
   src="/personal_website/notes/zh/flow_matching_story_truncation_error.html"
   style="height:840px;"
   scrolling="no"
 ></iframe>
-</div>
+
 
 ---
 
