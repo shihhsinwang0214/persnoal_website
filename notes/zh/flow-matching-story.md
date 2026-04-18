@@ -145,13 +145,8 @@ $$
 
 👇 動手探索：請拖曳下方的時間軸，親眼觀察 $x(t)$，觀察這些代表噪聲的「沙堆」，是如何一步步被搬運並聚集成有結構的「沙堡」！
 
-<!-- <div class="demo-wrapper" style="aspect-ratio: 800 / 1080;">
-<iframe 
-  src=
-  style="height:1080px;"
-  scrolling="no"
-></iframe>
-</div> -->
+<!--="height:1080px;"
+ -->
 
 <div class="demo-wrapper">
   <iframe src="/personal_website/notes/zh/flow_matching_story_sim.html" class="demo-frame"></iframe>
