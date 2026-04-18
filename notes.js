@@ -270,15 +270,37 @@ if (document.readyState === 'loading') {
 }
 
 
+window.addEventListener('message', function(e) {
+  if (e.data && e.data.iframeHeight) {
+    const wrappers = document.querySelectorAll('.demo-wrapper');
+    wrappers.forEach(wrapper => {
+      const frame = wrapper.querySelector('.demo-frame');
+      if (!frame) return;
+      
+      // 用回報的實際高度取代固定 720
+      const actualHeight = e.data.iframeHeight;
+      frame.style.height = actualHeight + 'px';
+      
+      const scale = wrapper.offsetWidth / 1280;
+      frame.style.transform = `scale(${scale})`;
+      wrapper.style.height = (actualHeight * scale) + 'px';
+    });
+  }
+});
+
 function scaleIframe() {
   const wrappers = document.querySelectorAll('.demo-wrapper');
   wrappers.forEach(wrapper => {
     const frame = wrapper.querySelector('.demo-frame');
-    if (!frame) return; // ← 加這行，沒有 iframe 就跳過
+    if (!frame) return;
+    
+    // 取得 iframe 目前的實際高度
+    const actualHeight = frame.offsetHeight || 720; // 沒收到訊息前用 720 當預設
     const scale = wrapper.offsetWidth / 1280;
     frame.style.transform = `scale(${scale})`;
-    wrapper.style.height = (720 * scale) + 'px';
+    wrapper.style.height = (actualHeight * scale) + 'px';
   });
 }
+
 window.addEventListener('resize', scaleIframe);
 scaleIframe();
