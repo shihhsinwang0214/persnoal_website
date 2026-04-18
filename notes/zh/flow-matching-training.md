@@ -1,15 +1,3 @@
-<style>
-/* 1. 修正手機端數學公式超出版面 */
-.MathJax_Display, .katex-display, mjx-container, .math-display, .math {
-    max-width: 100%;
-    overflow-x: auto !important;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 5px;
-}
-</style>
-
-
 # 訓練 Flow Matching：一個「隨群體而動」的視角
 
 ## 本章將會介紹
