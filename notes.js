@@ -266,11 +266,11 @@ function scaleIframe() {
   const wrappers = document.querySelectorAll('.demo-wrapper');
   wrappers.forEach(wrapper => {
     const frame = wrapper.querySelector('.demo-frame');
-    const scale = wrapper.offsetWidth / 1280; // 1280 是 demo 原始寬度
+    if (!frame) return; // ← 加這行，沒有 iframe 就跳過
+    const scale = wrapper.offsetWidth / 1280;
     frame.style.transform = `scale(${scale})`;
-    wrapper.style.height = (720 * scale) + 'px'; // 720 是 demo 原始高度
+    wrapper.style.height = (720 * scale) + 'px';
   });
 }
-
 window.addEventListener('resize', scaleIframe);
 scaleIframe();
