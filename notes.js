@@ -288,19 +288,3 @@ window.addEventListener('message', function(e) {
   }
 });
 
-function scaleIframe() {
-  const wrappers = document.querySelectorAll('.demo-wrapper');
-  wrappers.forEach(wrapper => {
-    const frame = wrapper.querySelector('.demo-frame');
-    if (!frame) return;
-    
-    // 取得 iframe 目前的實際高度
-    const actualHeight = frame.offsetHeight || 720; // 沒收到訊息前用 720 當預設
-    const scale = wrapper.offsetWidth / 1280;
-    frame.style.transform = `scale(${scale})`;
-    wrapper.style.height = (actualHeight * scale) + 'px';
-  });
-}
-
-window.addEventListener('resize', scaleIframe);
-scaleIframe();
