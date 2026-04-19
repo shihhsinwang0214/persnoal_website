@@ -12,19 +12,19 @@ const notesData = {
         {
             group: { en: "Flow Matching", zh: "Flow Matching" },
             title: { en: "Flow ODE: From a Sand Pile to a Sandcastle", zh: "Flow ODE：沙堆到沙堡" },
-            file: { en: "notes/en/flow-matching-story.md", zh: "notes/zh/flow-matching-story.md" } // Fixed EN path
+            file: { en: "notes/en/flow-matching/story_en.md", zh: "notes/zh/flow-matching/story-zh.md" } // Fixed EN path
         },
         {
             group: { en: "Flow Matching", zh: "Flow Matching" },
             title: { en: "How to Train Flow Matching Models", zh: "訓練 Flow Matching：隨群體而動" },
-            file: { en: "notes/en/flow-matching-training.md", zh: "notes/zh/flow-matching-training.md" }
+            file: { en: "notes/en/flow-matching/training-en.md", zh: "notes/flow-matching/training-zh.md" }
         }
     ],
     "skills": [
         {
             group: { en: "Paper Writing", zh: "論文寫作" }, // Unified logic: added a group for skills
             title: { en: "How to Write a Compelling Introduction", zh: "如何寫一個有說服力的 Introduction" },
-            file: { en: "notes/en/write-intro.md", zh: "notes/zh/write-intro.md" }
+            file: { en: "notes/academic_skills/write-intro-en.md", zh: "notes/academic_skills/write-intro-zh.md" }
         }
     ]
 };
@@ -191,12 +191,7 @@ async function loadMarkdown(filePath, btnElement, categoryId, noteIndex) {
         textToParse = await res.text();
     } catch (networkError) {
         // ==== 404 NETWORK FALLBACK ====
-        let comingSoonPath = "notes/coming-soon.md"; 
-        if (filePath) {
-            const basePath = filePath.substring(0, filePath.lastIndexOf('/')); 
-            comingSoonPath = `${basePath}/coming-soon.md`;
-        }
-
+        const comingSoonPath = `notes/coming-soon-${currentLang}.md`;
         const noteData = notesData[categoryId][noteIndex];
         if (!noteData.title.en.includes("Coming Soon")) noteData.title.en += " (Coming Soon!)";
         if (!noteData.title.zh.includes("即將推出")) noteData.title.zh += " (即將推出!)"; 
