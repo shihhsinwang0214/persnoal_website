@@ -12,12 +12,12 @@ const notesData = {
         {
             group: { en: "Flow Matching", zh: "Flow Matching" },
             title: { en: "Flow ODE: From a Sand Pile to a Sandcastle", zh: "Flow ODE：沙堆到沙堡" },
-            file: { en: "notes/en/flow-matching/story_en.md", zh: "notes/zh/flow-matching/story-zh.md" } // Fixed EN path
+            file: { en: "notes/research_areas/flow-matching/story-en.md", zh: "notes/research_areas/flow-matching/story-zh.md" } // Fixed EN path
         },
         {
             group: { en: "Flow Matching", zh: "Flow Matching" },
             title: { en: "How to Train Flow Matching Models", zh: "訓練 Flow Matching：隨群體而動" },
-            file: { en: "notes/en/flow-matching/training-en.md", zh: "notes/flow-matching/training-zh.md" }
+            file: { en: "notes/research_areas/flow-matching/training-en.md", zh: "notes/research_areas/flow-matching/training-zh.md" }
         }
     ],
     "skills": [
