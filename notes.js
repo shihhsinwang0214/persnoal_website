@@ -219,7 +219,7 @@ async function loadMarkdown(filePath, btnElement, categoryId, noteIndex) {
     try {
         contentDiv.innerHTML = marked.parse(textToParse);
         Prism.highlightAllUnder(contentDiv);
-        scaleIframe();
+
     } catch (parseError) {
         // ==== PARSING ERROR FALLBACK (Usually caused by heavy LaTeX syntax errors) ====
         contentDiv.innerHTML = `
